@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
@@ -24,36 +26,109 @@
     </nav>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero">
-            <div class="hero-content">
-                <!-- <div class="hero-brand">CUT529</div> -->
-                <h1 class="hero-title">Do You Recognize These Porn Addiction Symptoms?</h1>
-                <div class="symptoms-list">
-                    <div class="symptom-item">✓ You try to stop but always relapse</div>
-                    <div class="symptom-item">✓ You spend hours browsing without control</div>
-                    <div class="symptom-item">✓ You feel guilty after every session</div>
-                    <div class="symptom-item">✓ You've lost relationships because of this habit</div>
-                </div>
-                <h2 class="hero-tagline">Break the cycle with AI technology that blocks even when you don't want to stop</h2>
-                <div class="hero-buttons">
-                    <button class="cta-button primary">Stop the Addiction Now</button>
-                    <button class="cta-button secondary">See How It Works</button>
+            <!--         
+            <div class="hero-title">
+                The definitive solution for AI-powered NSFW content blocking.
+            </div>
+            -->
+            <div class="hero-content-container">
+                <div class="hero-content">
+                    <div class="hero-title">
+                        <span style="font-size: 1.8rem; font-weight: 600;">Cut the</span>
+                        <h1>
+                            <span style="font-size: larger; background: transparent;">PORN ADDICTION</span> SYMPTOMS
+                        </h1>
+                        <span style="font-size: 1.8rem; font-weight: 600;">for ever.</span>
+                    </div>
+                    <div class="carousel-container">
+                        <div class="carousel">
+                            <div class="carousel-item active">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>You can't stop watching</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-clock"></i>
+                                <span>More time searching for porn</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Hard to concentrate</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-frown"></i>
+                                <span>Guilt, shame, or anxiety afterwards</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-user-slash"></i>
+                                <span>Lost of relationships</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-undo"></i>
+                                <span>Tried to quit, but you can't</span>
+                            </div>
+                            <div class="carousel-item">
+                                <i class="fas fa-fire"></i>
+                                <span>More extreme content to feel the same</span>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        // Simple JS carousel logic - auto-advance only
+                        (function () {
+                            const items = document.querySelectorAll('.carousel-item');
+                            let current = 0;
+                            const total = items.length;
+                            const showItem = idx => {
+                                items.forEach((el, i) => el.classList.toggle('active', i === idx));
+                            };
+                            // Auto-advance every 3.5 seconds
+                            setInterval(() => {
+                                current = (current + 1) % total;
+                                showItem(current);
+                            }, 3500);
+                        })();
+                    </script>
+                    <div class="cta-button-container">
+                        No more excuses – Start Free
+                        <button class="cta-button">
+                            Download now <br>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="hero-features">
-                <div class="feature-badge">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Protección IA</span>
-                </div>
-                <div class="feature-badge">
-                    <i class="fas fa-lock"></i>
-                    <span>Modo Irrevocable</span>
-                </div>
-                <div class="feature-badge">
-                    <i class="fas fa-brain"></i>
-                    <span>Análisis Visual</span>
-                </div>
+        </section>
+
+        <section class="what">
+            <div class="what-title">
+                <h2>The most advanced <br>AI-powered porn blocker.</h2>
+            </div>
+            <div class="what-content">
+                <span>CUT529 is an intelligent porn blocker that detects
+                    and cuts explicit content <br> in real time using AI. Built for people who truly want to quit.
+                </span>
+            </div>
+            <div class="what-video">
+                <video autoplay muted loop playsinline style="max-width: 60%; border-radius: 12px;">
+                    <source src="/cutAction1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span>
+                    GET FREE plan.
+                </span>
+            </div>
+        </section>
+
+        <section class="notjust">
+            <div class="notjust-title">
+                <h2>Not just porn</h2>
+            </div>
+            <div class="notjust-content">
+                <span>
+                CUT529 uses AI to detect and block not just porn, 
+                but anything that fuels your addiction.
+                <br>Not just on the web — anywhere on your screen.
+                </span>
             </div>
         </section>
 
@@ -61,12 +136,28 @@
         <section class="problem-section">
             <div class="container">
                 <h2 class="section-title">The Symptoms Don't Lie</h2>
+
+                <strong>Common Porn Addiction Symptoms:</strong>
+                <ul>
+                    <li>You can't stop watching, even though you know it's harming you</li>
+                    <li>You spend more and more time searching for porn</li>
+                    <li>You struggle to concentrate or do your daily tasks</li>
+                    <li>You feel guilty, ashamed, or anxious afterwards</li>
+                    <li>You neglect friends, work, or hobbies</li>
+                    <li>You've tried to quit, but couldn't</li>
+                    <li>You need to watch more extreme content to feel the same</li>
+                    <li>You get irritable or restless when you don't watch</li>
+                </ul>
+
                 <div class="problem-content">
-                    <p class="problem-text">Porn addiction isn't just "lack of willpower". It's your brain craving more dopamine.</p>
-                    <p class="problem-text">Every failed attempt to stop reinforces the cycle. Every broken promise increases the shame.</p>
-                    <p class="problem-solution">CUT529 breaks the neurological pattern from the root with AI that detects content before you see it.</p>
+                    <p class="problem-text">Porn addiction isn't just "lack of willpower". It's your brain craving more
+                        dopamine.</p>
+                    <p class="problem-text">Every failed attempt to stop reinforces the cycle. Every broken promise
+                        increases the shame.</p>
+                    <p class="problem-solution">CUT529 breaks the neurological pattern from the root with AI that
+                        detects content before you see it.</p>
                 </div>
-                
+
                 <div class="addiction-stats">
                     <div class="stat-item">
                         <div class="stat-number">67%</div>
@@ -84,12 +175,19 @@
             </div>
         </section>
 
+        <section class="video-section">
+            <div class="video container">
+                Video
+                bueno, mejor un gif
+            </div>
+        </section>
+
         <!-- Pricing Section -->
         <section id="pricing" class="pricing-section">
             <div class="container">
                 <h2 class="section-title">Pricing Plans</h2>
                 <div class="pricing-grid">
-                    
+
                     <!-- Plan 1: Get Free -->
                     <div class="pricing-card basic">
                         <div class="plan-header">
@@ -99,11 +197,16 @@
                         </div>
                         <ul class="plan-features">
                             <li><i class="fas fa-check"></i> Smart URL blocking (blacklist + automatic updates)</li>
-                            <li><i class="fas fa-check"></i> Basic irrevocable mode: you can't close the app or stop the service without waiting for cooldown</li>
-                            <li><i class="fas fa-check"></i> Commitment timer: select how long you want to maintain the block (minimum 1 week)</li>
-                            <li><i class="fas fa-check"></i> Schedule filter: choose what hours the block activates automatically</li>
-                            <li><i class="fas fa-check"></i> Uninstall protection (requires password or recovery key)</li>
-                            <li><i class="fas fa-check"></i> Real-time categorization with lightweight AI for uncategorized sites</li>
+                            <li><i class="fas fa-check"></i> Basic irrevocable mode: you can't close the app or stop the
+                                service without waiting for cooldown</li>
+                            <li><i class="fas fa-check"></i> Commitment timer: select how long you want to maintain the
+                                block (minimum 1 week)</li>
+                            <li><i class="fas fa-check"></i> Schedule filter: choose what hours the block activates
+                                automatically</li>
+                            <li><i class="fas fa-check"></i> Uninstall protection (requires password or recovery key)
+                            </li>
+                            <li><i class="fas fa-check"></i> Real-time categorization with lightweight AI for
+                                uncategorized sites</li>
                         </ul>
                         <button class="plan-button">Start Now</button>
                     </div>
@@ -122,8 +225,10 @@
                             <li><i class="fas fa-check"></i> NSFW detection even outside browser</li>
                             <li><i class="fas fa-check"></i> Periodic screenshots (every 5s, optimizable)</li>
                             <li><i class="fas fa-check"></i> Active window content (OCR, facial recognition, etc.)</li>
-                            <li><i class="fas fa-check"></i> Advanced irrevocable mode: Cannot be disabled even by restart, terminal, or uninstall</li>
-                            <li><i class="fas fa-check"></i> Protected activity log: Saves encrypted data of when and what you tried to access</li>
+                            <li><i class="fas fa-check"></i> Advanced irrevocable mode: Cannot be disabled even by
+                                restart, terminal, or uninstall</li>
+                            <li><i class="fas fa-check"></i> Protected activity log: Saves encrypted data of when and
+                                what you tried to access</li>
                         </ul>
                         <button class="plan-button">Start Now</button>
                     </div>
@@ -137,13 +242,19 @@
                         </div>
                         <ul class="plan-features">
                             <li><i class="fas fa-check"></i> <strong>Everything from Stay Clean, plus:</strong></li>
-                            <li><i class="fas fa-check"></i> Home network monitoring: Installs agent on your router or intermediate device</li>
-                            <li><i class="fas fa-check"></i> Detects and blocks NSFW traffic from all connected devices</li>
-                            <li><i class="fas fa-check"></i> 10 devices protected simultaneously, even when changing networks</li>
-                            <li><i class="fas fa-check"></i> Appointment with clinical psychologist specialized in digital/sexual addiction</li>
+                            <li><i class="fas fa-check"></i> Home network monitoring: Installs agent on your router or
+                                intermediate device</li>
+                            <li><i class="fas fa-check"></i> Detects and blocks NSFW traffic from all connected devices
+                            </li>
+                            <li><i class="fas fa-check"></i> 10 devices protected simultaneously, even when changing
+                                networks</li>
+                            <li><i class="fas fa-check"></i> Appointment with clinical psychologist specialized in
+                                digital/sexual addiction</li>
                             <li><i class="fas fa-check"></i> Valid in 🇺🇸 🇲🇽 🇨🇦 🇨🇴 🇨🇱 🇦🇷</li>
-                            <li><i class="fas fa-check"></i> At least 1 session included (premium package can be added)</li>
-                            <li><i class="fas fa-check"></i> Personalized remote support: Installation and configuration via remote desktop</li>
+                            <li><i class="fas fa-check"></i> At least 1 session included (premium package can be added)
+                            </li>
+                            <li><i class="fas fa-check"></i> Personalized remote support: Installation and configuration
+                                via remote desktop</li>
                         </ul>
                         <button class="plan-button">Contact Sales</button>
                     </div>
@@ -182,7 +293,8 @@
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
                         <div class="testimonial-content">
-                            <p>"CUT529 changed my life. I finally broke the addiction cycle that had me trapped for years."</p>
+                            <p>"CUT529 changed my life. I finally broke the addiction cycle that had me trapped for
+                                years."</p>
                         </div>
                         <div class="testimonial-author">
                             <div class="author-info">
@@ -193,7 +305,8 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-content">
-                            <p>"The irrevocable mode is exactly what I needed. There's no going back, and that's perfect."</p>
+                            <p>"The irrevocable mode is exactly what I needed. There's no going back, and that's
+                                perfect."</p>
                         </div>
                         <div class="testimonial-author">
                             <div class="author-info">
@@ -204,7 +317,8 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-content">
-                            <p>"The therapy included in the premium plan was fundamental. Now I have the tools to stay clean."</p>
+                            <p>"The therapy included in the premium plan was fundamental. Now I have the tools to stay
+                                clean."</p>
                         </div>
                         <div class="testimonial-author">
                             <div class="author-info">
@@ -312,7 +426,7 @@
         // Mobile menu toggle
         const navToggle = document.querySelector('.nav-toggle');
         const navLinks = document.querySelector('.nav-links');
-        
+
         if (navToggle) {
             navToggle.addEventListener('click', () => {
                 navLinks.classList.toggle('active');
@@ -321,42 +435,27 @@
 
         // Pricing card hover effects
         document.querySelectorAll('.pricing-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-10px)';
             });
-            
-            card.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
 
-        // Symptoms scroll reveal animation
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const symptomItems = entry.target.querySelectorAll('.symptom-item');
-                    symptomItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.classList.add('show');
-                        }, index * 200); // 200ms delay between each item
-                    });
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Start observing symptoms list when DOM is loaded
+        // Symptoms timed reveal animation
         document.addEventListener('DOMContentLoaded', () => {
-            const symptomsList = document.querySelector('.symptoms-list');
-            if (symptomsList) {
-                observer.observe(symptomsList);
-            }
+            const symptomItems = document.querySelectorAll('.symptom-item');
+
+            // Start showing symptoms after 2 seconds, then every 2 seconds
+            symptomItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, 200 + (index * 1000)); // First at 2s, then every 2s
+            });
         });
     </script>
 </body>
+
 </html>
