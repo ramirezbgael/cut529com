@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config(); // Load environment variables
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Deshabilitado temporalmente
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const path = require('path');
@@ -56,147 +56,24 @@ app.get('/payment', (req, res) => {
     res.sendFile(path.join(__dirname, 'payment.html'));
 });
 
-// Public config endpoint (serves safe, non-secret config)
-app.get('/config', (req, res) => {
-    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
-});
+// app.get('/config', (req, res) => {
+//     res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+// });
 
 // Create payment intent
-app.post('/create-payment-intent', async (req, res) => {
-    try {
-        const { plan, email, name } = req.body;
-        
-        if (!plans[plan]) {
-            return res.status(400).json({ error: 'Invalid plan selected' });
-        }
-
-        const selectedPlan = plans[plan];
-        
-        // Create a PaymentIntent with the order amount and currency
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: selectedPlan.price * 100, // Convert to cents
-            currency: 'usd',
-            metadata: {
-                plan: plan,
-                customer_email: email,
-                customer_name: name,
-                product: 'CUT529 License'
-            },
-            receipt_email: email
-        });
-
-        res.send({
-            clientSecret: paymentIntent.client_secret,
-            amount: selectedPlan.price
-        });
-    } catch (error) {
-        console.error('Error creating payment intent:', error);
-        res.status(500).json({ error: 'Failed to create payment intent' });
-    }
-});
+// app.post('/create-payment-intent', async (req, res) => {
+//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
+// });
 
 // Process payment (legacy endpoint for token-based payments)
-app.post('/process-payment', async (req, res) => {
-    try {
-        const { token, email, name, plan, amount } = req.body;
-        
-        if (!plans[plan]) {
-            return res.status(400).json({ error: 'Invalid plan selected' });
-        }
-
-        const selectedPlan = plans[plan];
-
-        // Create charge using the token
-        const charge = await stripe.charges.create({
-            amount: parseInt(amount) * 100, // Convert to cents
-            currency: 'usd',
-            source: token,
-            description: `CUT529 ${selectedPlan.name} License`,
-            metadata: {
-                plan: plan,
-                customer_email: email,
-                customer_name: name
-            },
-            receipt_email: email
-        });
-
-        if (charge.status === 'succeeded') {
-            // Send download email
-            await sendDownloadEmail(email, name, selectedPlan);
-            
-            // Log successful purchase
-            console.log(`✅ Successful purchase: ${name} (${email}) - ${selectedPlan.name} - $${amount}`);
-            
-            res.json({ 
-                success: true, 
-                charge: charge.id,
-                message: 'Payment successful! Check your email for download instructions.'
-            });
-        } else {
-            res.status(400).json({ 
-                success: false, 
-                error: 'Payment failed. Please try again.' 
-            });
-        }
-    } catch (error) {
-        console.error('Payment processing error:', error);
-        
-        // Handle specific Stripe errors
-        if (error.type === 'StripeCardError') {
-            res.status(400).json({ 
-                success: false, 
-                error: error.message 
-            });
-        } else {
-            res.status(500).json({ 
-                success: false, 
-                error: 'An error occurred while processing your payment.' 
-            });
-        }
-    }
-});
+// app.post('/process-payment', async (req, res) => {
+//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
+// });
 
 // Webhook to handle Stripe events
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const endpointSecret = process.env.WEBHOOK_SECRET_KEY;
-
-    let event;
-
-    try {
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-        console.log(`⚠️ Webhook signature verification failed.`, err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    // Handle the event
-    switch (event.type) {
-        case 'payment_intent.succeeded':
-            const paymentIntent = event.data.object;
-            console.log(`✅ PaymentIntent succeeded: ${paymentIntent.id}`);
-            
-            // Send download email
-            const plan = paymentIntent.metadata.plan;
-            const email = paymentIntent.metadata.customer_email;
-            const name = paymentIntent.metadata.customer_name;
-            
-            if (plans[plan]) {
-                sendDownloadEmail(email, name, plans[plan]);
-            }
-            break;
-            
-        case 'payment_intent.payment_failed':
-            const failedPayment = event.data.object;
-            console.log(`❌ Payment failed: ${failedPayment.id}`);
-            break;
-            
-        default:
-            console.log(`Unhandled event type ${event.type}`);
-    }
-
-    res.json({received: true});
-});
+// app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
+//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
+// });
 
 // Send download email
 async function sendDownloadEmail(email, name, plan) {

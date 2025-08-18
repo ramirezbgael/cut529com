@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="payment-styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://js.stripe.com/v3/"></script>
+    <!-- <script src="https://js.stripe.com/v3/"></script> -->
 </head>
 
 <body>
@@ -216,10 +216,8 @@
     </main>
 
     <script>
-        // Initialize Stripe (key loaded from server config)
-        let stripe;
-        let elements;
-        let card;
+        // Stripe deshabilitado temporalmente
+        const paymentsEnabled = false;
 
         // Custom styling for Stripe elements
         const style = {
@@ -238,30 +236,10 @@
             }
         };
 
-        // Fetch publishable key from server and initialize Stripe Elements
-        (async () => {
-            try {
-                const response = await fetch('/config');
-                const config = await response.json();
-                stripe = Stripe(config.publishableKey);
-                elements = stripe.elements();
-                card = elements.create('card', {style: style});
-                card.mount('#card-element');
-            } catch (e) {
-                const displayError = document.getElementById('card-errors');
-                displayError.textContent = 'Failed to initialize payment form.';
-            }
-        })();
+        // Stripe Elements deshabilitado
+        // (No se inicializa Stripe ni se monta el elemento de tarjeta)
 
-        // Handle real-time validation errors from the card Element
-        card.on('change', ({error}) => {
-            const displayError = document.getElementById('card-errors');
-            if (error) {
-                displayError.textContent = error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
+        // Validación en vivo deshabilitada (Stripe apagado)
 
         // Handle plan selection
         document.querySelectorAll('.plan-option').forEach(option => {
@@ -341,17 +319,8 @@
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            const {token, error} = await stripe.createToken(card);
-
-            if (error) {
-                // Show error to customer
-                const errorElement = document.getElementById('card-errors');
-                errorElement.textContent = error.message;
-            } else {
-                // Send token to your server
-                submitFormWithToken(token);
-            }
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = 'Los pagos están temporalmente deshabilitados.';
         });
 
         function submitFormWithToken(token) {
@@ -373,17 +342,10 @@
                 amount: document.querySelector('.plan-option.selected').dataset.price
             };
 
-            // Here you would send the data to your server
-            // For demo purposes, we'll simulate a successful payment
-            setTimeout(() => {
-                // Hide loading, show success
-                document.getElementById('success-modal').classList.remove('hidden');
-                
-                // Reset button state
-                button.disabled = false;
-                buttonText.classList.remove('hidden');
-                spinner.classList.add('hidden');
-            }, 2000);
+            // Stripe deshabilitado; no se enviará el pago
+            button.disabled = false;
+            buttonText.classList.remove('hidden');
+            spinner.classList.add('hidden');
 
             // Actual implementation would be:
             /*
