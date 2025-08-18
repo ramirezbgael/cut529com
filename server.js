@@ -56,6 +56,11 @@ app.get('/payment', (req, res) => {
     res.sendFile(path.join(__dirname, 'payment.html'));
 });
 
+// Public config endpoint (serves safe, non-secret config)
+app.get('/config', (req, res) => {
+    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+});
+
 // Create payment intent
 app.post('/create-payment-intent', async (req, res) => {
     try {

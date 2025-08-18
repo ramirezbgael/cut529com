@@ -216,9 +216,10 @@
     </main>
 
     <script>
-        // Initialize Stripe
-        const stripe = Stripe('REDACTED'); // Replace with your actual publishable key
-        const elements = stripe.elements();
+        // Initialize Stripe (key loaded from server config)
+        let stripe;
+        let elements;
+        let card;
 
         // Custom styling for Stripe elements
         const style = {
@@ -237,9 +238,20 @@
             }
         };
 
-        // Create card element
-        const card = elements.create('card', {style: style});
-        card.mount('#card-element');
+        // Fetch publishable key from server and initialize Stripe Elements
+        (async () => {
+            try {
+                const response = await fetch('/config');
+                const config = await response.json();
+                stripe = Stripe(config.publishableKey);
+                elements = stripe.elements();
+                card = elements.create('card', {style: style});
+                card.mount('#card-element');
+            } catch (e) {
+                const displayError = document.getElementById('card-errors');
+                displayError.textContent = 'Failed to initialize payment form.';
+            }
+        })();
 
         // Handle real-time validation errors from the card Element
         card.on('change', ({error}) => {
