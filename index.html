@@ -16,7 +16,10 @@
                 <h3 class="knife">⺈</h3>
                 <span class="nav-brand">CUT529</span>
             </div>
-            <ul class="nav-links">
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <ul id="primary-menu" class="nav-links" role="menu">
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#why-cut529">Why CUT529?</a></li>
@@ -32,152 +35,204 @@
                 The definitive solution for AI-powered NSFW content blocking.
             </div>
             -->
-            <div class="hero-content-container">
-                <div class="hero-content">
-                    <div class="hero-title">
-                        <span style="font-size: 1.8rem; font-weight: 600;">Cut the</span>
-                        <h1>
-                            <span style="font-size: larger; background: transparent;">PORN ADDICTION</span> SYMPTOMS
-                        </h1>
-                        <span style="font-size: 1.8rem; font-weight: 600;">for ever.</span>
-                    </div>
-                    <div class="carousel-container">
-                        <div class="carousel">
-                            <div class="carousel-item active">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>You can't stop watching</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-clock"></i>
-                                <span>More time searching for porn</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-brain"></i>
-                                <span>Hard to concentrate</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-frown"></i>
-                                <span>Guilt, shame, or anxiety afterwards</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-user-slash"></i>
-                                <span>Lost of relationships</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-undo"></i>
-                                <span>Tried to quit, but you can't</span>
-                            </div>
-                            <div class="carousel-item">
-                                <i class="fas fa-fire"></i>
-                                <span>More extreme content to feel the same</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        // Simple JS carousel logic - auto-advance only
-                        (function () {
-                            const items = document.querySelectorAll('.carousel-item');
-                            let current = 0;
-                            const total = items.length;
-                            const showItem = idx => {
-                                items.forEach((el, i) => el.classList.toggle('active', i === idx));
-                            };
-                            // Auto-advance every 3.5 seconds
-                            setInterval(() => {
-                                current = (current + 1) % total;
-                                showItem(current);
-                            }, 3500);
-                        })();
-                    </script>
+            <div class="hero-container">
+                <div class="hero-title">
+                    <h1>
+                        Cut porn addiction forever
+                    </h1>
                     <div class="cta-button-container">
-                        No more excuses – Start Free
+                        <h2>Block triggers, stop symptoms, take control</h2>
                         <button class="cta-button" onclick="window.location.href='payment.html'">
                             Download now <br>
                         </button>
                     </div>
                 </div>
+                <div class="carousel-container">
+                    <div class="carousel">
+                        <div class="carousel-item active">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>You can't stop watching</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-clock"></i>
+                            <span>More time searching for porn</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-brain"></i>
+                            <span>Hard to concentrate</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-frown"></i>
+                            <span>Guilt, shame, or anxiety afterwards</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-user-slash"></i>
+                            <span>Lost of relationships</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-undo"></i>
+                            <span>Tried to quit, but you can't</span>
+                        </div>
+                        <div class="carousel-item">
+                            <i class="fas fa-fire"></i>
+                            <span>More extreme content to feel the same</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="hero-how">
+                <button class="hero-how-button" onclick="window.location.href='#how-it-works'">
+                    How? <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+            <script>
+                // Simple JS carousel logic - auto-advance only
+                (function () {
+                    const items = document.querySelectorAll('.carousel-item');
+                    let current = 0;
+                    const total = items.length;
+                    const showItem = idx => {
+                        items.forEach((el, i) => el.classList.toggle('active', i === idx));
+                    };
+                    // Auto-advance every 3.5 seconds
+                    setInterval(() => {
+                        current = (current + 1) % total;
+                        showItem(current);
+                    }, 3500);
+                })();
+            </script>
+        </section>
+        <!-- Value sections first; how-it-works moved below -->
+
+        <!-- Dopamine / Addiction CTA Block -->
+        <section class="dopamine-section">
+            <div class="container dopamine-wrap">
+                <div class="dopamine-text">
+                    <h2 class="dopamine-title">Porn addiction isn’t a 'lack of willpower.'</h2>
+                    <p class="dopamine-subtitle">It’s your brain chasing dopamine—over and over, even when you want to stop.</p>
+                    <p class="dopamine-paragraph">Every failed attempt strengthens the cycle. Every broken promise fuels guilt and shame.</p>
+                    <p class="dopamine-cta">Cut529 helps you break free with AI-powered protection—fast, relentless, smarter than your brain’s reward system.</p>
+                    <div class="dopamine-actions">
+                        <button class="plan-button" onclick="window.location.href='payment.html'">Start Free</button>
+                    </div>
+                </div>
+                <div class="dopamine-illustrations">
+                    <div class="illo brain" aria-hidden="true">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="illo cycle" aria-hidden="true">
+                        <i class="fas fa-arrows-rotate"></i>
+                    </div>
+                    <div class="illo shield" aria-hidden="true">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
             </div>
         </section>
+
 
         <section class="what">
             <div class="what-title">
                 <h2>The most advanced <br>AI-powered porn blocker.</h2>
+                <p class="what-subtitle">Not just porn blocking — CUT529 is your commitment device, with Irrevocable Mode to help you stay on track.</p>
             </div>
             <div class="what-content-container">
                 <div class="what-content">
-                    <span>
-                        <span style="font-size: 46px; text-shadow: 0 0 20px #00cfff;">
-                            Quit porn for ever.
-                        </span> CUT529 cuts it off with AI, in real time.
-                        <br>
-                        <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <p class="what-lead">AI protection across your entire device.</p>
+                    <ul class="what-features">
+                        <li class="feature-item"><i class="fas fa-lock"></i><span><strong>Irrevocable</strong> — cannot be turned off until the timer ends.</span></li>
+                        <li class="feature-item"><i class="fas fa-eye"></i><span><strong>System‑wide</strong> — works in and out of the browser.</span></li>
+                        <li class="feature-item">
+                            <i class="fas fa-ban"></i>
+                            <span><strong>Beyond porn</strong> — cuts off erotic triggers, addictive media, and explicit clickbait before they reach you</span>
+                          </li>
+                          
+                    </ul>
+                    <div class="what-cta-row">
+                        <button class="plan-button" onclick="window.location.href='payment.html'">Start Free</button>
+                        <span class="tiny-note text-sm text-gray-400">You control the timer.</span>
+                    </div>
                 </div>
                 <div class="what-video">
-                    <video autoplay muted loop playsinline style="max-width: 100%; border-radius: 12px;">
-                        <source src="/proof1.mov" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <span>
-                        GET FREE plan.
-                    </span>
+                    <div class="mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots"><span></span><span></span><span></span></div>
+                            <div class="mockup-url">cut529://protection</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div class="eye-icon" aria-hidden="true">
+                                <div class="eye-sclera">
+                                    <div class="eye-iris"></div>
+                                </div>
+                            </div>
+                            <div class="mockup-text">System-wide protection active</div>
+                        </div>
+                        <div class="mockup-badge">Irrevocable ON</div>
+                    </div>
+                    <div class="badge-row">
+                        <span class="badge">Irrevocable</span>
+                        <span class="badge">System‑wide</span>
+                        <span class="badge">AI Visual</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="notjust">
-            <div class="notjust-title">
-                <h2>Not just porn</h2>
-            </div>
-            <div class="notjust-content-container">
-                <div class="notjust-video">
-                    <video autoplay muted loop playsinline style="max-width: 100%; border-radius: 12px;">
-                        <source src="/proof1.mov" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="notjust-content">
-                    <span>
-                        CUT529 blocks porn and more. <br>
-                        <span style="font-size: 46px; text-shadow: 0 0 10px #00cfff;">
-                            Anything that fuels your addiction.
-                        </span>
-                        <br>
-                        <i class="fas fa-arrow-left"></i>
-                    </span>
-                </div>
-
-            </div>
-        </section>
 
         <!-- Problem Statement -->
         <section class="problem-section">
             <div class="container">
-                <div class="problem-content">
-                    <p class="problem-text">Porn addiction isn't just "lack of willpower". It's your brain craving more
-                        dopamine.</p>
-                    <p class="problem-solution">AI-powered protection that works <br> faster than your brain's reward system.</p>
-                    <p class="problem-text">Every failed attempt to stop reinforces the cycle. Every broken promise
-                        increases the shame.</p>
+        
+                <div class="addiction-stats-title">
+                    Why it’s not your fault — and how we can help
                 </div>
-
-                <div class="addiction-stats-title">some porn usage stats</div>
+        
+                <p class="addiction-note">
+                    Porn is designed to be addictive. Your brain craves dopamine, the chemical that rewards pleasure, which makes stopping extremely difficult. Addiction isn’t a matter of willpower — it’s biology. CUT529 gives you the tools to regain control, breaking the cycle safely and effectively.
+                </p>
+        
                 <div class="addiction-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">67%</div>
+                    <div class="stat-item circle" data-unit="%" data-value="67">
+                        <div class="stat-circle" role="img" aria-label="67%">
+                            <svg width="100" height="100" viewBox="0 0 100 100" aria-hidden="true">
+                                <circle class="circle-bg" cx="50" cy="50" r="42"></circle>
+                                <circle class="circle-progress" cx="50" cy="50" r="42"></circle>
+                            </svg>
+                            <div class="stat-center">
+                                <div class="stat-number">67%</div>
+                            </div>
+                        </div>
                         <div class="stat-label">of users report addiction symptoms</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">3.2h</div>
+        
+                    <div class="stat-item circle clock">
+                        <div class="stat-circle" role="img" aria-label="3.2 hours">
+                            <div class="stat-center">
+                                <div class="stat-icon"><i class="fas fa-clock clock-icon"></i></div>
+                                <div class="stat-number">3.2h</div>
+                            </div>
+                        </div>
                         <div class="stat-label">daily average on NSFW sites</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">89%</div>
+        
+                    <div class="stat-item circle" data-unit="%" data-value="89">
+                        <div class="stat-circle" role="img" aria-label="89%">
+                            <svg width="100" height="100" viewBox="0 0 100 100" aria-hidden="true">
+                                <circle class="circle-bg" cx="50" cy="50" r="42"></circle>
+                                <circle class="circle-progress" cx="50" cy="50" r="42"></circle>
+                            </svg>
+                            <div class="stat-center">
+                                <div class="stat-number">89%</div>
+                            </div>
+                        </div>
                         <div class="stat-label">have tried to stop unsuccessfully</div>
                     </div>
                 </div>
+        
             </div>
         </section>
+        
         <!-- Pricing Section -->
         <section id="pricing" class="pricing-section">
             <div class="container">
@@ -259,25 +314,43 @@
         </section>
 
         <!-- How It Works Section -->
-        <section class="how-it-works">
-            <div class="container">
-                <h2 class="section-title">How It Works</h2>
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <h3>Secure Installation</h3>
-                        <p>Install CUT529 on your device with uninstall protection and irrevocable configuration.</p>
+        
+
+        <!-- How it works (moved here below value/pricing) -->
+        <section id="how-it-works">
+            <div class="container how-container">
+                <div class="how-title">
+                    <h2>How it works</h2>
+                    <p>Three layers of protection that complement each other to keep you in control.</p>
+                </div>
+                <div class="how-grid">
+                    <!-- Step 1 -->
+                    <div class="how-card">
+                        <div class="how-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Smart Proxy Shield</h3>
+                        <p>All your traffic goes through a <strong>secure proxy</strong> that acts as a guardian between you and the internet.</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <h3>Smart Configuration</h3>
-                        <p>AI analyzes your behavior and automatically configures the best protections for you.</p>
+                    <!-- Step 2 -->
+                    <div class="how-card">
+                        <div class="how-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI Content Detection</h3>
+                        <p>Our <strong>AI</strong> analyzes text, images, and videos in real time to detect explicit and non exlicit sexual content.</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <h3>Active Protection</h3>
-                        <p>Real-time blocking with visual and network analysis for complete protection.</p>
+                    <!-- Step 3 -->
+                    <div class="how-card">
+                        <div class="how-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3>Block & Replace</h3>
+                        <p>Harmful content is <strong>blocked instantly</strong> and replaced with a neutral page.</p>
                     </div>
+                </div>
+                <div class="how-text">
+                    CUT529 no es un simple bloqueador de páginas: es una barrera inteligente que corta el contenido adictivo en el momento exacto en que aparece.
                 </div>
             </div>
         </section>
@@ -362,8 +435,10 @@
                 <h2>Ready to Break Free?</h2>
                 <p>Join thousands of people who have already regained control of their digital life.</p>
                 <div class="cta-buttons">
-                    <button class="cta-button primary large" onclick="window.location.href='payment.html'">Start Now</button>
-                    <button class="cta-button secondary large" onclick="window.location.href='payment.html'">Talk to an Expert</button>
+                    <button class="cta-button primary large" onclick="window.location.href='payment.html'">Start
+                        Now</button>
+                    <button class="cta-button secondary large" onclick="window.location.href='payment.html'">Talk to an
+                        Expert</button>
                 </div>
             </div>
         </section>
@@ -425,7 +500,26 @@
 
         if (navToggle) {
             navToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
+                const isOpen = navLinks.classList.toggle('active');
+                navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                const icon = navToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-bars', !isOpen);
+                    icon.classList.toggle('fa-times', isOpen);
+                }
+            });
+
+            // Cerrar el menú al hacer clic en un enlace
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    const icon = navToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                });
             });
         }
 
@@ -451,6 +545,42 @@
                 }, 200 + (index * 1000)); // First at 2s, then every 2s
             });
         });
+
+        // Animate addiction stats bars and circles when visible
+        (function(){
+            const statItems = document.querySelectorAll('.problem-section .stat-item');
+            if (!('IntersectionObserver' in window) || statItems.length === 0) return;
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        const unit = item.getAttribute('data-unit') || '%';
+                        const raw = parseFloat(item.getAttribute('data-value') || '0');
+                        const max = parseFloat(item.getAttribute('data-max') || (unit === '%' ? '100' : '100'));
+                        const pct = Math.max(0, Math.min(100, (raw / max) * 100));
+
+                        // Horizontal bar fill
+                        const fill = item.querySelector('.stat-bar-fill');
+                        if (fill) requestAnimationFrame(() => { fill.style.width = pct + '%'; });
+                        const bar = item.querySelector('.stat-bar');
+                        if (bar) bar.setAttribute('aria-valuenow', String(raw));
+
+                        // Circular stroke animation
+                        const circle = item.querySelector('.circle-progress');
+                        if (circle) {
+                            const circumference = 2 * Math.PI * 42; // r=42
+                            const offset = circumference * (1 - pct / 100);
+                            circle.style.strokeDasharray = `${circumference}`;
+                            requestAnimationFrame(() => { circle.style.strokeDashoffset = `${offset}`; });
+                        }
+                        obs.unobserve(item);
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            statItems.forEach(el => observer.observe(el));
+        })();
     </script>
 </body>
 
