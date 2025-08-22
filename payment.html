@@ -30,7 +30,7 @@
             <div class="download-info">
                 <div class="download-header">
                     <i class="fas fa-download download-icon"></i>
-                    <h1>Get CUT529 Premium</h1>
+                    <h1>Get CUT529</h1>
                     <p class="download-subtitle">AI-powered protection starts in 30 seconds</p>
                 </div>
 
@@ -41,7 +41,7 @@
                             FREE TRIAL
                         </div>
                         <h3>7-Day Free Trial</h3>
-                        <div class="plan-price-display">$0 <span>USD</span></div>
+                        <div class="plan-price-display">$0.00</div>
                         <p class="plan-description">Full premium features, 7 days completely free</p>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <input type="radio" name="plan" id="trial" value="trial" checked>
                         <label for="trial">
                             <div class="plan-option-content">
-                                <h4>🎉 7-Day FREE Trial</h4>
+                                <h4>7-Day FREE Trial</h4>
                                 <span class="price">$0</span>
                                 <p>Full premium features</p>
                                 <span class="popular trial-badge">FREE TRIAL</span>
@@ -133,8 +133,9 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" aria-describedby="emailError" pattern="^(?!.*\+)[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$">
                                 <small>We'll send your download link here</small>
+                                <small id="emailError" class="error-text hidden" role="alert"></small>
                             </div>
                         </div>
                         <div class="form-row">
@@ -153,7 +154,7 @@
                         <div id="card-errors" role="alert"></div>
                     </div>
 
-                    <div class="payment-summary">
+                    <div class="payment-summary" aria-live="polite">
                         <div class="summary-row">
                             <span>CUT529 Premium</span>
                             <span id="summaryPrice">$0.00</span>
@@ -163,20 +164,22 @@
                             <span>$0.00</span>
                         </div>
                         <div class="summary-row total">
-                            <span>Total today</span>
+                            <span id="totalLabel">Total today</span>
                             <span id="totalPrice">$0.00</span>
                         </div>
                     </div>
 
                     <button type="submit" id="submit" class="download-button">
-                        <span id="button-text">
-                            <i class="fas fa-gift"></i>
-                            Start FREE Trial - $<span id="buttonPrice">0</span>
-                        </span>
+                        <span id="button-text"><i class="fas fa-gift"></i> Start FREE Trial — $0.00</span>
                         <div id="spinner" class="hidden">
                             <i class="fas fa-spinner fa-spin"></i>
                         </div>
                     </button>
+
+                    <div class="micro-assurance" aria-live="polite">
+                        <p id="preorderNote" class="hidden"><i class="fas fa-clock"></i> Pre‑order: Get Stay Clean Plan today. Remaining features delivered on December 14.</p>
+                        <p><i class="fas fa-eye-slash"></i> No hidden fees</p>
+                    </div>
 
                     <div class="payment-footer">
                         <p>
@@ -184,9 +187,9 @@
                             Protected by industry-standard encryption. Your payment information is secure.
                         </p>
                         <p class="terms">
-                            By completing this purchase, you agree to our 
-                            <a href="#" target="_blank">Terms of Service</a> and 
-                            <a href="#" target="_blank">Privacy Policy</a>
+                            By continuing, you agree to our 
+                            <a href="terms.html" target="_blank">Terms of Service</a> and 
+                            <a href="privacy.html" target="_blank">Privacy Policy</a>
                         </p>
                     </div>
                 </form>
@@ -200,7 +203,8 @@
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <h2>Download Ready!</h2>
-                <p>Check your email for the download link and setup instructions.</p>
+                <p id="modalSubtitle">Check your email for the download link and setup instructions.</p>
+                <p id="modalPreorder" class="hidden">Pre‑order confirmed: You have immediate access to Stay Clean Plan. Remaining features will be delivered on <strong>December 14</strong>.</p>
                 <div class="success-actions">
                     <button onclick="window.open('mailto:', '_blank')" class="action-button">
                         <i class="fas fa-envelope"></i>
@@ -241,6 +245,45 @@
 
         // Validación en vivo deshabilitada (Stripe apagado)
 
+        // Currency formatting helper
+        function formatUSD(value) {
+            const amount = typeof value === 'number' ? value : parseFloat(value);
+            if (Number.isNaN(amount)) return '$0.00';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        }
+
+        // Common disposable/temporary email domains
+        const disposableEmailDomains = new Set([
+            'mailinator.com', 'tempmail.com', 'yopmail.com', '10minutemail.com', 'guerrillamail.com',
+            'trashmail.com', 'throwawaymail.com', 'sharklasers.com', 'getnada.com', 'dispostable.com',
+            'maildrop.cc', 'moakt.com', 'mailnesia.com', 'temp-mail.org', 'fakeinbox.com', 'mintemail.com',
+            'mailcatch.com', 'spambog.com', 'spambog.ru', 'spambox.us', 'spamgourmet.com'
+        ]);
+
+        function isDisposableDomain(domain) {
+            if (!domain) return false;
+            const lower = domain.toLowerCase();
+            for (const d of disposableEmailDomains) {
+                if (lower === d || lower.endsWith('.' + d)) return true;
+            }
+            return false;
+        }
+
+        // Email validation helper (no plus addressing, general shape, no leading/trailing dots, valid TLD)
+        function getEmailError(value) {
+            if (!value) return '';
+            if (value.includes('+')) return 'Plus addressing (+) is not allowed.';
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+            if (!emailPattern.test(value)) return 'Enter a valid email address.';
+            const [local, domain] = value.split('@');
+            if (!local || !domain) return 'Enter a valid email address.';
+            if (local.startsWith('.') || local.endsWith('.')) return 'Enter a valid email address.';
+            if (domain.startsWith('-') || domain.endsWith('-')) return 'Enter a valid email address.';
+            if (domain.includes('..')) return 'Enter a valid email address.';
+            if (isDisposableDomain(domain)) return 'Disposable email domains are not allowed.';
+            return '';
+        }
+
         // Handle plan selection
         document.querySelectorAll('.plan-option').forEach(option => {
             option.addEventListener('click', function() {
@@ -252,9 +295,8 @@
                 const plan = this.dataset.plan;
                 
                 // Update UI
-                document.getElementById('summaryPrice').textContent = `$${price}.00`;
-                document.getElementById('totalPrice').textContent = `$${price}.00`;
-                document.getElementById('buttonPrice').textContent = price;
+                document.getElementById('summaryPrice').textContent = formatUSD(price);
+                document.getElementById('totalPrice').textContent = formatUSD(price);
                 
                 // Update button text and icon based on plan
                 const buttonText = document.getElementById('button-text');
@@ -262,10 +304,25 @@
                 
                 if (plan === 'trial') {
                     buttonIcon.className = 'fas fa-gift';
-                    buttonText.innerHTML = `<i class="fas fa-gift"></i> Start FREE Trial - $<span id="buttonPrice">${price}</span>`;
+                    buttonText.innerHTML = `<i class=\"fas fa-gift\"></i> Start FREE Trial — ${formatUSD(price)}`;
+                    document.getElementById('totalLabel').textContent = 'Total today';
+                    document.getElementById('preorderNote').classList.add('hidden');
+                    document.getElementById('modalPreorder').classList.add('hidden');
+                    document.getElementById('modalSubtitle').textContent = 'Check your email for the download link and setup instructions.';
+                } else if (plan === 'enterprise') {
+                    buttonIcon.className = 'fas fa-download';
+                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Pre order now — ${formatUSD(price)}`;
+                    document.getElementById('totalLabel').textContent = 'Pre-order total today';
+                    document.getElementById('preorderNote').classList.remove('hidden');
+                    document.getElementById('modalPreorder').classList.remove('hidden');
+                    document.getElementById('modalSubtitle').textContent = 'Pre‑order confirmed. Check your email for access to Stay Clean Plan.';
                 } else {
                     buttonIcon.className = 'fas fa-download';
-                    buttonText.innerHTML = `<i class="fas fa-download"></i> Complete Download - $<span id="buttonPrice">${price}</span>`;
+                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Complete Purchase — ${formatUSD(price)}`;
+                    document.getElementById('totalLabel').textContent = 'Total today';
+                    document.getElementById('preorderNote').classList.add('hidden');
+                    document.getElementById('modalPreorder').classList.add('hidden');
+                    document.getElementById('modalSubtitle').textContent = 'Check your email for the download link and setup instructions.';
                 }
                 
                 // Update selected plan display
@@ -284,19 +341,19 @@
                 basic: {
                     name: 'Get Free Plan',
                     description: 'Basic protection with smart URL blocking',
-                    badge: 'Essential',
+                    badge: 'ESSENTIAL',
                     icon: 'fas fa-shield'
                 },
                 premium: {
                     name: 'Stay Clean Plan',
                     description: 'Complete protection with visual AI analysis',
-                    badge: 'Most Popular',
+                    badge: 'MOST POPULAR',
                     icon: 'fas fa-star'
                 },
                 enterprise: {
                     name: 'No Way Back Plan',
-                    description: 'Network protection plus professional therapy',
-                    badge: 'Complete Solution',
+                    description: 'Includes immediate access to Stay Clean Plan. Remaining features on December 14.',
+                    badge: 'COMPLETE SOLUTION',
                     icon: 'fas fa-crown'
                 }
             };
@@ -306,19 +363,52 @@
             
             selectedPlan.innerHTML = `
                 <div class="plan-badge">
-                    <i class="${planData.icon}"></i>
+
                     ${planData.badge}
                 </div>
                 <h3>${planData.name}</h3>
-                <div class="plan-price-display">$${price} <span>USD</span></div>
+                <div class="plan-price-display">${formatUSD(price)}</div>
                 <p class="plan-description">${planData.description}</p>
             `;
         }
 
         // Handle form submission
         const form = document.getElementById('payment-form');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+
+        function showEmailError(message) {
+            emailError.textContent = message;
+            emailError.classList.remove('hidden');
+            emailInput.setAttribute('aria-invalid', 'true');
+        }
+
+        function clearEmailError() {
+            emailError.textContent = '';
+            emailError.classList.add('hidden');
+            emailInput.removeAttribute('aria-invalid');
+        }
+
+        // Validate on blur (not on every keystroke) to avoid noisy UX
+        emailInput.addEventListener('blur', () => {
+            const value = emailInput.value.trim();
+            const error = getEmailError(value);
+            if (error) {
+                showEmailError(error);
+            } else {
+                clearEmailError();
+            }
+        });
+
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            const value = emailInput.value.trim();
+            const error = getEmailError(value);
+            if (error) {
+                showEmailError(error);
+                emailInput.focus();
+                return;
+            }
             const errorElement = document.getElementById('card-errors');
             errorElement.textContent = 'Los pagos están temporalmente deshabilitados.';
         });

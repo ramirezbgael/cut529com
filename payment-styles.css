@@ -2,8 +2,8 @@
 
 .payment-main {
     min-height: 100vh;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-    padding-top: 10vh;
+    background: #000; /* solid black to match site */
+    padding-top: 12vh; /* clear fixed navbar */
     padding-bottom: 40px;
 }
 
@@ -359,6 +359,11 @@
     margin-top: 5px;
 }
 
+.error-text {
+    color: #fa755a;
+    margin-top: 6px;
+}
+
 /* Stripe Elements */
 #card-element {
     background: rgba(255, 255, 255, 0.1);
@@ -429,8 +434,7 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: .4px;
 }
 
 .download-button:hover {
@@ -470,6 +474,20 @@
 
 .payment-footer a:hover {
     text-decoration: underline;
+}
+
+/* Micro assurance below CTA */
+.micro-assurance {
+    color: #bbb;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+.micro-assurance p {
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Success Modal */
@@ -614,6 +632,13 @@
     .action-button {
         width: 100%;
         justify-content: center;
+    }
+
+    /* Keep CTA visible on mobile */
+    .download-button {
+        position: sticky;
+        bottom: 12px;
+        z-index: 5;
     }
 }
 

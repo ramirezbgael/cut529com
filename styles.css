@@ -300,7 +300,9 @@ nav .nav-links a:hover::after {
 .cta-button:hover {
     cursor: pointer;
     box-shadow: 0 0 90px rgba(106, 228, 255, 0.4);
-    background-color: rgb(47, 217, 255);
+    background-color: rgb(255, 255, 255);
+    color: #000;
+    border: none;
 }
 
 .cta-button:active {
@@ -1203,7 +1205,7 @@ nav .nav-links a:hover::after {
 
 /* Pricing Section */
 .pricing-section {
-    padding: 100px 0;
+    padding: 20px 0;
     background: #000000;
 
     .pricing-grid {
@@ -1238,7 +1240,6 @@ nav .nav-links a:hover::after {
         box-shadow: 0 20px 50px rgba(0, 207, 255, 0.2);
     }
 
-    .pricing-card.premium {}
 
     .pricing-card.premium::before {
         background: linear-gradient(90deg, #00cfff, #fff);
@@ -1248,12 +1249,15 @@ nav .nav-links a:hover::after {
         position: absolute;
         top: 20px;
         right: 20px;
-        background: #00cfff;
-        color: #000;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 600;
+        background: rgba(0, 207, 255, 0.15);
+        color: #dff8ff;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border: 1px solid rgba(0, 207, 255, 0.35);
+        text-shadow: 0 0 10px rgba(0, 207, 255, 0.3);
+        backdrop-filter: blur(6px);
     }
 
     .plan-header {
@@ -1371,12 +1375,15 @@ nav .nav-links a:hover::after {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: #00cfff;
-    color: #000;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    background: rgba(0, 207, 255, 0.15);
+    color: #dff8ff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid rgba(0, 207, 255, 0.35);
+    text-shadow: 0 0 10px rgba(0, 207, 255, 0.3);
+    backdrop-filter: blur(6px);
 }
 
 .pricing-section .plan-header {
@@ -1394,10 +1401,31 @@ nav .nav-links a:hover::after {
 }
 
 .pricing-section .plan-price {
-    font-size: 24px;
-    font-weight: 600;
-    color: #b9b9b9;
+    /* Strong visual weight */
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 800; /* font-extrabold */
+    letter-spacing: -0.02em; /* tracking-tight */
+    line-height: 1.1;
     margin-bottom: 20px;
+
+    /* Fallback color for older browsers */
+    color: #7dd3fc; /* bright cyan */
+
+    /* Gradient text for modern browsers */
+    background: linear-gradient(135deg, #22d3ee 0%, #2d5391 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Subtle glow for legibility on mixed backgrounds */
+    text-shadow: 0 0 18px rgba(59, 130, 246, 0.35);
+}
+
+/* Tweak currency inside price so it does not overpower the main number */
+.pricing-section .plan-price .currency {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #c7d2da;
 }
 
 .pricing-section .currency {
@@ -1432,28 +1460,58 @@ nav .nav-links a:hover::after {
     flex-shrink: 0;
 }
 
+/* Unavailable features styling */
+.pricing-section .plan-features li.unavailable {
+    color: #8a8f94;
+    opacity: 0.8;
+}
+.pricing-section .plan-features li.unavailable i {
+    color: #8a8f94;
+}
+
 .pricing-section .plan-button {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, #00cfff 0%, #0099bb 100%);
-    color: #000;
+    width: min(70%, 320px);
+    padding: 12px 24px; /* py-3 px-6 */
+    margin: 0 auto; /* center horizontally */
+    display: block;
+    background: linear-gradient(135deg, #22d3ee 0%, #94bcfd 100%); /* from-cyan-400 to-blue-500 */
+    color: #000; /* black text */
     border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-radius: 16px; /* rounded-2xl */
+    font-size: 1.05rem;
+    font-weight: 700; /* bold */
+    text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    text-transform: none;
+    letter-spacing: .2px;
 }
 
 .pricing-section .plan-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 207, 255, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.45); /* shadow-xl */
+}
+
+/* Emphasis style for enterprise pre-order button */
+.pricing-section .plan-button.plan-button-preorder {
+    background: linear-gradient(135deg, #00BFFF 0%, #1E90FF 100%); /* from-purple-500 to-pink-500 */
+    box-shadow: 0 0 0 2px rgba(85, 236, 247, 0.6) inset, 0 24px 48px rgba(97, 165, 247, 0.35);
 }
 
 /* Mobile-specific hero/layout adjustments */
 @media (max-width: 768px) {
+    /* Mobile testimonials: 1 card per view, swipe horizontally */
+    .testimonials-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        padding: 8px 12px;
+        margin-top: 12px;
+    }
+    .testimonials-grid::-webkit-scrollbar { display: none; }
+    .testimonials-grid > * { flex: 0 0 100%; }
+    .testimonial-card { scroll-snap-align: start; flex: 0 0 100%; max-width: 100%; margin: 0; }
     .hero-content-container {
         height: auto;
         padding-top: 80px;
@@ -1466,13 +1524,45 @@ nav .nav-links a:hover::after {
     }
 
     .hero h1 {
-        font-size: 24px;
+        font-size: 30px;
         text-align: center;
     }
 
+    /* Make hero stack vertically on mobile */
+    .hero-container {
+        flex-direction: column;
+        height: auto;
+        padding-left: 0;
+        padding: 88px 20px 28px;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero-title {
+        width: 100%;
+        height: auto;
+        padding-top: 0;
+        align-items: center;
+    }
+
+    .cta-button-container {
+        align-items: center;
+        width: 100%;
+    }
+
+    .cta-button-container h2 {
+        text-align: center;
+        width: 100%;
+    }
+
     .carousel-container {
-        height: 220px;
+        width: 100%;
+        height: auto;
         padding-top: 12px;
+        padding-right: 0;
+        order: -1; /* show carousel first */
+        margin-bottom: 8px;
     }
 
     .carousel-item {
@@ -1481,7 +1571,7 @@ nav .nav-links a:hover::after {
     }
 
     .carousel-item i {
-        font-size: 4rem;
+        font-size: 5rem;
         margin-bottom: 12px;
     }
 
@@ -1513,19 +1603,45 @@ nav .nav-links a:hover::after {
         max-width: 320px;
         font-size: 1rem;
     }
+
+    /* Prevent overlap: let How It Works expand naturally on mobile */
+    #how-it-works { padding: 56px 0 20px; margin-bottom: 32px; height: auto; }
+    #how-it-works .how-title { margin-bottom: 16px; }
+    .how-container { height: auto; padding-top: 8px; }
+    .how-grid { gap: 16px; }
+
+    /* Add comfortable spacing before testimonials on mobile */
+    .testimonials-section { padding: 104px 0 64px; margin-top: 24px; position: relative; z-index: 0; }
+
+    /* Account for fixed navbar when scrolling to anchors */
+    #testimonials, #how-it-works { scroll-margin-top: 72px; }
 }
 
+/* Desktop: 3-card carousel with smooth horizontal scroll */
+@media (min-width: 1024px) {
+    .testimonials-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - 48px) / 3); /* 3 cards, gap=24px */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 24px;
+        padding-bottom: 6px;
+    }
+    .testimonials-grid::-webkit-scrollbar { height: 8px; }
+    .testimonial-card { scroll-snap-align: start; min-width: 0; }
+}
 
 
 /* How It Works Section */
 .how-it-works {
-    padding: 100px 0px;
-    background: #0b1319;
-    height: 100vh;
+    padding: 20px 0px;
+    background: #000000;
+    height: 90vh;
 }
 
 .how-container {
-    height: 100vh;
+    height: 90vh;
     padding-top: 10vh;
 }
 
@@ -1554,18 +1670,19 @@ nav .nav-links a:hover::after {
 }
 
 .how-card {
-    background: rgba(255, 255, 255, 0.06);
+    background: #000000;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 16px;
     padding: 28px;
     text-align: center;
     transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow: 0 8px 24px rgba(0, 207, 255, 0.06);
 }
 
 .how-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(0, 207, 255, 0.18);
-    border-color: rgba(0, 207, 255, 0.35);
+    box-shadow: 0 18px 56px rgba(0, 207, 255, 0.28);
+    border-color: rgba(0, 207, 255, 0.5);
 }
 
 .how-icon {
@@ -1576,12 +1693,10 @@ nav .nav-links a:hover::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(60% 60% at 50% 50%, rgba(0, 207, 255, 0.35) 0%, rgba(0, 153, 187, 0.15) 100%);
-    box-shadow: inset 0 0 30px rgba(0, 207, 255, 0.25);
 }
 
 .how-icon i {
-    font-size: 26px;
+    font-size: 36px;
     color: #e8faff;
     text-shadow: 0 0 20px #00cfff;
 }
@@ -1595,6 +1710,23 @@ nav .nav-links a:hover::after {
 .how-card p {
     color: #c7d0d9;
     line-height: 1.6;
+}
+
+/* Ensure mobile overrides come AFTER base rules so they take effect */
+@media (max-width: 768px) {
+    .how-container { height: auto !important; padding-top: 8px; }
+    #how-it-works { height: auto; }
+    .how-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* How text — mirror dopamine paragraph style */
+.how-text {
+    color: #c7d0d9;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 10px auto 16px;
+    margin-top: 30px;
+    text-align: center;
 }
 
 .step-card {
@@ -1640,29 +1772,50 @@ nav .nav-links a:hover::after {
 
 /* Testimonials Section */
 .testimonials-section {
-    padding: 100px 0;
+    padding: 120px 0 80px;
     background: #000;
 }
 
 .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 40px;
-    margin-top: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* Ensure mobile shows exactly one card per view (override base placed after) */
+@media (max-width: 768px) {
+    .testimonials-grid {
+        display: flex !important;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        padding: 8px 12px 16px;
+        margin-top: 12px;
+    }
+    .testimonials-grid::-webkit-scrollbar { display: none; }
+    .testimonials-grid > * { flex: 0 0 100%; scroll-snap-align: center; }
 }
 
 .testimonial-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    padding: 40px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    background: #000;
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 207, 255, 0.12);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    max-width: 540px; /* keep reasonable width on desktop */
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 240px; /* give room so shadow doesn't clip visually */
+    margin-bottom: 8px;
 }
 
 .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 207, 255, 0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 20px rgba(0, 207, 255, 0.28);
+    border-color: rgba(0, 207, 255, 0.35);
 }
 
 .testimonial-content {
@@ -1670,24 +1823,14 @@ nav .nav-links a:hover::after {
 }
 
 .testimonial-content p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #fff;
-    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #c7d0d9;
 }
 
-.testimonial-content p::before {
-    content: '"';
-    font-size: 2rem;
-    color: #00cfff;
-    position: absolute;
-    transform: translate(-10px, -10px);
-}
-
+.testimonial-content p::before,
 .testimonial-content p::after {
-    content: '"';
-    font-size: 2rem;
-    color: #00cfff;
+    content: none;
 }
 
 .author-info h4 {
@@ -1731,9 +1874,9 @@ nav .nav-links a:hover::after {
 }
 
 .why-card i {
-    font-size: 3rem;
-    color: #00cfff;
-    margin-bottom: 20px;
+    font-size:26px;
+    color: #e8faff;
+    text-shadow: 0 0 20px #00cfff;
 }
 
 .why-card h3 {
@@ -1748,19 +1891,103 @@ nav .nav-links a:hover::after {
     line-height: 1.6;
 }
 
+/* Why CUT529 helper text (quote) */
+.why-cut529-text {
+    color: #c7d0d9;
+    line-height: 1.7;
+    max-width: 90vw;
+    margin: 8px 0 18px;
+    text-align: left;
+    font-style: normal;
+    font-size: 24px;
+}
+
+.why-cut529-text span {
+    color: #fff;
+    font-style: normal;
+}
+
+/* Make Why icons match dopamine-style glow blocks */
+.why-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* CTA Section */
 .cta-section {
     padding: 100px 0;
     background: linear-gradient(135deg, #00cfff 0%, #0099bb 100%);
-    color: #000;
     text-align: center;
+}
+
+/* Minimal CTA variant */
+.minimal-cta {
+    background: #000000; /* very dark blue */
+    color: #e6f6ff;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 48px 0;
+}
+
+.minimal-cta-inner {
+    text-align: center;
+}
+
+.minimal-cta-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: #ffffff;
+    text-shadow: 0 0 18px rgba(34, 211, 238, 0.18);
+    /* Subtle continuous sheen */
+    background-image: linear-gradient(90deg, #ffffff 0%, #f7feff 35%, #c9f4ff 50%, #f7feff 65%, #ffffff 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Safari/WebKit fix for clipped text */
+    background-clip: text;
+    color: transparent;
+    animation: text-sheen-loop 7s linear infinite;
+}
+
+@keyframes text-sheen-loop {
+    0% { background-position: -150% 0; }
+    100% { background-position: 150% 0; }
+}
+
+/* CTA title shine (viewport-triggered, no position change) */
+
+
+.minimal-cta-button {
+    display: inline-block;
+    padding: 12px 28px; /* py-3 px-7 */
+    border-radius: 999px;
+    border: 0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #041923; /* strong contrast on light turquoise */
+    background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+    box-shadow: 0 16px 40px rgba(34, 211, 238, 0.25);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.minimal-cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 22px 56px rgba(34, 211, 238, 0.35);
 }
 
 .cta-section h2 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #000;
+    color: #ffffff;
 }
 
 .cta-section p {
@@ -1922,6 +2149,10 @@ nav .nav-links a:hover::after {
     .symptom-item:hover {
         transform: translateY(-5px) scale(1.02);
     }
+
+    /* Tighten spacing for Why section on mobile */
+    .why-section { padding: 10px 0 80px; }
+    .why-grid { gap: 24px; }
 }
 
 @media (max-width: 480px) {
@@ -1966,6 +2197,69 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: #0099bb;
 }
+
+/* Legal pages (Terms / Privacy) */
+.legal-main {
+    min-height: 100vh;
+    background: #000;
+    padding-top: 12vh;
+    padding-bottom: 40px;
+}
+
+.legal-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.legal-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.legal-icon {
+    font-size: 3rem;
+    color: #00cfff;
+    text-shadow: 0 0 30px #00cfff;
+}
+
+.legal-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 10px 0 6px;
+    text-shadow: 0 0 18px rgba(0, 207, 255, 0.35);
+}
+
+.legal-subtitle {
+    color: #a7b0b7;
+}
+
+.legal-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+}
+
+.legal-card h2 {
+    color: #fff;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+}
+
+.legal-card p {
+    color: #c7d0d9;
+    line-height: 1.7;
+}
+
+.legal-list {
+    padding-left: 18px;
+    color: #c7d0d9;
+}
+
+.legal-list li { margin-bottom: 8px; }
 
 /* Final override to ensure mobile nav toggling works (order + specificity) */
 @media (max-width: 900px) {
