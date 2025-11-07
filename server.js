@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config(); // Load environment variables
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Deshabilitado temporalmente
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const path = require('path');
@@ -22,30 +22,74 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Plan configurations
+// Plan configurations (precios base en USD)
 const plans = {
+    trial: {
+        name: '7-Day Free Trial',
+        priceUSD: 0,
+        priceId: 'trial', 
+        downloadUrl: 'https://cut529.com/downloads/cut529-trial.zip',
+        features: ['Full premium features', '7 days completely free', 'No commitment'],
+        disabled: true
+    },
     basic: {
         name: 'Get Free Plan',
-        price: 10,
-        priceId: 'price_1234567890', // Replace with actual Stripe price ID
+        priceUSD: 10, // Precio base en USD
+        priceId: 'price_1234567890',
         downloadUrl: 'https://cut529.com/downloads/cut529-basic.zip',
-        features: ['Smart URL blocking', 'Basic irrevocable mode', 'Commitment timer']
+        features: ['Smart URL blocking (DNS)', 'Temporary irrevocable mode', 'Commitment timer', 'Email support']
     },
     premium: {
         name: 'Stay Clean Plan',
-        price: 100,
-        priceId: 'price_0987654321', // Replace with actual Stripe price ID
+        priceUSD: 100, // Precio base en USD
+        priceId: 'price_0987654321',
         downloadUrl: 'https://cut529.com/downloads/cut529-premium.zip',
-        features: ['Everything from Get Free', 'Visual AI analysis', 'Advanced irrevocable mode']
+        features: ['Everything from Get Free', 'Visual AI analysis', 'Advanced irrevocable mode'],
+        availableDate: '2024-12-14',
+        disabled: true
     },
     enterprise: {
         name: 'No Way Back Plan',
-        price: 1000,
-        priceId: 'price_1122334455', // Replace with actual Stripe price ID
+        priceUSD: 1000, // Precio base en USD
+        priceId: 'price_1122334455',
         downloadUrl: 'https://cut529.com/downloads/cut529-enterprise.zip',
-        features: ['Everything from Stay Clean', 'Network monitoring', 'Therapy session']
+        features: ['Everything from Stay Clean', 'Network monitoring', 'Therapy session'],
+        availableDate: '2025-02-14',
+        disabled: true
     }
 };
+
+// Exchange rates (approximate - you can update these or use a live API)
+const exchangeRates = {
+    USD: 1,      // Base currency
+    MXN: 20,     // 1 USD = 20 MXN
+    EUR: 0.85,   // 1 USD = 0.85 EUR
+    GBP: 0.75,   // 1 USD = 0.75 GBP
+    CAD: 1.35,   // 1 USD = 1.35 CAD
+    AUD: 1.45,   // 1 USD = 1.45 AUD
+    BRL: 5.50,   // 1 USD = 5.50 BRL
+    ARS: 350     // 1 USD = 350 ARS
+};
+
+// Currency symbols and formatting
+const currencyConfig = {
+    USD: { symbol: '$', locale: 'en-US', name: 'US Dollar' },
+    MXN: { symbol: '$', locale: 'es-MX', name: 'Mexican Peso' },
+    EUR: { symbol: '€', locale: 'de-DE', name: 'Euro' },
+    GBP: { symbol: '£', locale: 'en-GB', name: 'British Pound' },
+    CAD: { symbol: 'C$', locale: 'en-CA', name: 'Canadian Dollar' },
+    AUD: { symbol: 'A$', locale: 'en-AU', name: 'Australian Dollar' },
+    BRL: { symbol: 'R$', locale: 'pt-BR', name: 'Brazilian Real' },
+    ARS: { symbol: '$', locale: 'es-AR', name: 'Argentine Peso' }
+};
+
+// Function to convert price to different currency
+function convertPrice(priceUSD, currency) {
+    if (currency === 'USD') return priceUSD;
+    const rate = exchangeRates[currency];
+    if (!rate) return priceUSD;
+    return Math.round(priceUSD * rate * 100) / 100; // Round to 2 decimals
+}
 
 // Serve main pages
 app.get('/', (req, res) => {
@@ -56,24 +100,241 @@ app.get('/payment', (req, res) => {
     res.sendFile(path.join(__dirname, 'payment.html'));
 });
 
-// app.get('/config', (req, res) => {
-//     res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
-// });
+app.get('/config', (req, res) => {
+    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+});
+
+// Get prices in specific currency
+app.get('/prices/:currency', (req, res) => {
+    const { currency } = req.params;
+    
+    if (!exchangeRates[currency]) {
+        return res.status(400).json({ error: 'Unsupported currency' });
+    }
+
+    const convertedPlans = {};
+    for (const [key, plan] of Object.entries(plans)) {
+        convertedPlans[key] = {
+            ...plan,
+            price: convertPrice(plan.priceUSD, currency),
+            currency: currency,
+            currencyInfo: currencyConfig[currency]
+        };
+    }
+
+    res.json({
+        plans: convertedPlans,
+        currency: currency,
+        exchangeRate: exchangeRates[currency],
+        currencyInfo: currencyConfig[currency]
+    });
+});
+
+// Handle free trial signup
+app.post('/start-trial', async (req, res) => {
+    try {
+        const { email, name } = req.body;
+        
+        // For trial, send email with basic plan download
+        const trialPlan = {
+            name: '7-Day Free Trial',
+            downloadUrl: 'https://cut529.com/downloads/cut529-trial.zip',
+            features: [
+                'Basic URL blocking',
+                'Trial irrevocable mode (7 days max)',
+                'Basic protection features',
+                'Email support'
+            ]
+        };
+        
+        await sendDownloadEmail(email, name, trialPlan);
+        
+        res.json({ 
+            success: true, 
+            message: 'Free trial activated! Check your email for download instructions.' 
+        });
+    } catch (error) {
+        console.error('Trial signup error:', error);
+        res.status(500).json({ error: 'Failed to start trial' });
+    }
+});
 
 // Create payment intent
-// app.post('/create-payment-intent', async (req, res) => {
-//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
-// });
+app.post('/create-payment-intent', async (req, res) => {
+    try {
+        const { plan, currency = 'USD' } = req.body;
+        
+        if (!plans[plan]) {
+            return res.status(400).json({ error: 'Invalid plan selected' });
+        }
+
+        // Check if plan is disabled
+        if (plans[plan].disabled) {
+            return res.status(400).json({ 
+                error: `${plans[plan].name} is not available yet. Available on ${plans[plan].availableDate}` 
+            });
+        }
+
+        if (!exchangeRates[currency]) {
+            return res.status(400).json({ error: 'Unsupported currency' });
+        }
+
+        const planConfig = plans[plan];
+        const convertedPrice = convertPrice(planConfig.priceUSD, currency);
+        const amount = Math.round(convertedPrice * 100); // Convert to cents/centavos
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount,
+            currency: currency.toLowerCase(),
+            automatic_payment_methods: {
+                enabled: true,
+            },
+            metadata: {
+                plan: plan,
+                planName: planConfig.name,
+                originalPriceUSD: planConfig.priceUSD,
+                convertedPrice: convertedPrice,
+                selectedCurrency: currency
+            },
+        });
+
+        res.json({
+            clientSecret: paymentIntent.client_secret,
+            amount: amount,
+            plan: {
+                ...planConfig,
+                price: convertedPrice,
+                currency: currency
+            }
+        });
+    } catch (error) {
+        console.error('Error creating payment intent:', error);
+        res.status(500).json({ error: 'Failed to create payment intent' });
+    }
+});
 
 // Process payment (legacy endpoint for token-based payments)
-// app.post('/process-payment', async (req, res) => {
-//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
-// });
+app.post('/process-payment', async (req, res) => {
+    try {
+        const { token, email, name, plan, amount } = req.body;
 
-// Webhook to handle Stripe events
-// app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-//     res.status(503).json({ error: 'Payments are temporarily disabled.' });
-// });
+        if (!plans[plan]) {
+            return res.status(400).json({ error: 'Invalid plan selected' });
+        }
+
+        const planConfig = plans[plan];
+        
+        // Create charge with Stripe
+        const charge = await stripe.charges.create({
+            amount: parseFloat(amount) * 100, // Convert to cents
+            currency: 'mxn', // Cambiado a pesos mexicanos
+            source: token,
+            description: `CUT529 ${planConfig.name} - ${email}`,
+            metadata: {
+                email: email,
+                name: name,
+                plan: plan,
+                planName: planConfig.name
+            }
+        });
+
+        if (charge.status === 'succeeded') {
+            // Send download email
+            await sendDownloadEmail(email, name, planConfig);
+            
+            res.json({ 
+                success: true, 
+                message: 'Payment successful! Check your email for download instructions.',
+                chargeId: charge.id
+            });
+        } else {
+            res.status(400).json({ error: 'Payment failed' });
+        }
+    } catch (error) {
+        console.error('Payment processing error:', error);
+        res.status(500).json({ 
+            error: error.message || 'Payment processing failed' 
+        });
+    }
+});
+
+// Webhook to handle Stripe events (temporarily disabled - no webhook secret configured)
+app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+    // Skip webhook verification for now if no secret is configured
+    if (!process.env.STRIPE_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET === 'whsec_your_webhook_secret_here') {
+        console.log('⚠️  Webhook secret not configured, skipping verification');
+        return res.json({ received: true, note: 'Webhook secret not configured' });
+    }
+
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    } catch (err) {
+        console.error('Webhook signature verification failed:', err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+        case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+            console.log('💰 Payment succeeded:', paymentIntent.id);
+            
+            // Get metadata
+            const { plan, planName } = paymentIntent.metadata;
+            
+            if (plans[plan] && paymentIntent.receipt_email) {
+                await sendDownloadEmail(
+                    paymentIntent.receipt_email, 
+                    paymentIntent.metadata.customer_name || 'Customer',
+                    plans[plan]
+                );
+            }
+            break;
+        
+        case 'payment_intent.payment_failed':
+            const failedPayment = event.data.object;
+            console.log('❌ Payment failed:', failedPayment.id);
+            break;
+        
+        default:
+            console.log(`Unhandled event type ${event.type}`);
+    }
+
+    res.json({ received: true });
+});
+
+// Handle free trial signup
+app.post('/start-trial', async (req, res) => {
+    try {
+        const { email, name } = req.body;
+        
+        if (!email || !name) {
+            return res.status(400).json({ error: 'Email and name are required' });
+        }
+
+        console.log(`🎁 Free trial started for: ${email}`);
+        
+        // Send trial email (you can customize this)
+        const trialPlan = {
+            name: '7-Day Free Trial',
+            downloadUrl: 'https://cut529.com/downloads/cut529-trial.zip',
+            features: ['Full premium features', '7 days completely free', 'No commitment']
+        };
+        
+        await sendDownloadEmail(email, name, trialPlan);
+        
+        res.json({ 
+            success: true, 
+            message: 'Free trial activated! Check your email for download instructions.' 
+        });
+    } catch (error) {
+        console.error('Trial signup error:', error);
+        res.status(500).json({ error: 'Failed to start trial' });
+    }
+});
 
 // Send download email
 async function sendDownloadEmail(email, name, plan) {

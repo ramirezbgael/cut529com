@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="payment-styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- <script src="https://js.stripe.com/v3/"></script> -->
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -34,15 +34,14 @@
                     <p class="download-subtitle">AI-powered protection starts in 30 seconds</p>
                 </div>
 
-                <div class="plan-summary">
-                    <div class="selected-plan" id="selectedPlan">
+                <div class="plan-summary">                        <div class="selected-plan" id="selectedPlan">
                         <div class="plan-badge">
-                            <i class="fas fa-gift"></i>
-                            FREE TRIAL
+                            <i class="fas fa-shield"></i>
+                            ESSENTIAL
                         </div>
-                        <h3>7-Day Free Trial</h3>
-                        <div class="plan-price-display">$0.00</div>
-                        <p class="plan-description">Full premium features, 7 days completely free</p>
+                        <h3>Get Free Plan</h3>
+                        <div class="plan-price-display">$200.00</div>
+                        <p class="plan-description">Smart URL blocking and temporary protection mode</p>
                     </div>
                 </div>
 
@@ -50,9 +49,9 @@
                     <h4><i class="fas fa-shield-alt"></i> What you get instantly:</h4>
                     <ul>
                         <li><i class="fas fa-check"></i> Immediate download link</li>
-                        <li><i class="fas fa-check"></i> Visual AI analysis</li>
-                        <li><i class="fas fa-check"></i> Advanced irrevocable mode</li>
-                        <li><i class="fas fa-check"></i> Protected activity log</li>
+                        <li><i class="fas fa-check"></i> Smart URL blocking (DNS)</li>
+                        <li><i class="fas fa-check"></i> Temporary irrevocable mode</li>
+                        <li><i class="fas fa-check"></i> Commitment timer</li>
                         <li><i class="fas fa-check"></i> 24/7 email support</li>
                     </ul>
                 </div>
@@ -82,45 +81,35 @@
 
                 <!-- Plan selector -->
                 <div class="plan-selector">
-                    <div class="plan-option selected trial-highlight" data-plan="trial" data-price="0">
-                        <input type="radio" name="plan" id="trial" value="trial" checked>
-                        <label for="trial">
-                            <div class="plan-option-content">
-                                <h4>7-Day FREE Trial</h4>
-                                <span class="price">$0</span>
-                                <p>Full premium features</p>
-                                <span class="popular trial-badge">FREE TRIAL</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="plan-option" data-plan="basic" data-price="10">
-                        <input type="radio" name="plan" id="basic" value="basic">
+                    <div class="plan-option selected" data-plan="basic" data-price="200">
+                        <input type="radio" name="plan" id="basic" value="basic" checked>
                         <label for="basic">
                             <div class="plan-option-content">
                                 <h4>Get Free Plan</h4>
-                                <span class="price">$10</span>
+                                <span class="price">$200</span>
                                 <p>Basic protection</p>
                             </div>
                         </label>
                     </div>
-                    <div class="plan-option" data-plan="premium" data-price="100">
-                        <input type="radio" name="plan" id="premium" value="premium">
+                    <div class="plan-option disabled" data-plan="premium" data-price="2000">
+                        <input type="radio" name="plan" id="premium" value="premium" disabled>
                         <label for="premium">
                             <div class="plan-option-content">
                                 <h4>Stay Clean Plan</h4>
-                                <span class="price">$100</span>
+                                <span class="price">$2,000</span>
                                 <p>Complete protection</p>
-                                <span class="popular">Most Popular</span>
+                                <span class="coming-soon">Available Dec 14</span>
                             </div>
                         </label>
                     </div>
-                    <div class="plan-option" data-plan="enterprise" data-price="1000">
-                        <input type="radio" name="plan" id="enterprise" value="enterprise">
+                    <div class="plan-option disabled" data-plan="enterprise" data-price="20000">
+                        <input type="radio" name="plan" id="enterprise" value="enterprise" disabled>
                         <label for="enterprise">
                             <div class="plan-option-content">
                                 <h4>No Way Back Plan</h4>
-                                <span class="price">$1,000</span>
+                                <span class="price">$20,000</span>
                                 <p>Network + therapy</p>
+                                <span class="coming-soon">Available Feb 14</span>
                             </div>
                         </label>
                     </div>
@@ -128,6 +117,26 @@
 
                 <!-- Payment form -->
                 <form id="payment-form">
+                    <div class="form-section">
+                        <h3>Region & Currency</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="currency">Choose your currency</label>
+                                <select id="currency" name="currency">
+                                    <option value="MXN">🇲🇽 Mexico (MXN - Pesos)</option>
+                                    <option value="USD">🇺🇸 United States (USD - Dollars)</option>
+                                    <option value="EUR">🇪🇺 Europe (EUR - Euros)</option>
+                                    <option value="GBP">🇬🇧 United Kingdom (GBP - Pounds)</option>
+                                    <option value="CAD">🇨🇦 Canada (CAD - Dollars)</option>
+                                    <option value="AUD">🇦🇺 Australia (AUD - Dollars)</option>
+                                    <option value="BRL">🇧🇷 Brazil (BRL - Real)</option>
+                                    <option value="ARS">🇦🇷 Argentina (ARS - Pesos)</option>
+                                </select>
+                                <small>Prices will be converted automatically</small>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-section">
                         <h3>Your information</h3>
                         <div class="form-row">
@@ -157,7 +166,7 @@
                     <div class="payment-summary" aria-live="polite">
                         <div class="summary-row">
                             <span>CUT529 Premium</span>
-                            <span id="summaryPrice">$0.00</span>
+                            <span id="summaryPrice">$200.00</span>
                         </div>
                         <div class="summary-row">
                             <span>Secure processing</span>
@@ -165,12 +174,12 @@
                         </div>
                         <div class="summary-row total">
                             <span id="totalLabel">Total today</span>
-                            <span id="totalPrice">$0.00</span>
+                            <span id="totalPrice">$200.00</span>
                         </div>
                     </div>
 
                     <button type="submit" id="submit" class="download-button">
-                        <span id="button-text"><i class="fas fa-gift"></i> Start FREE Trial — $0.00</span>
+                        <span id="button-text"><i class="fas fa-download"></i> Complete Purchase — $200.00</span>
                         <div id="spinner" class="hidden">
                             <i class="fas fa-spinner fa-spin"></i>
                         </div>
@@ -220,8 +229,8 @@
     </main>
 
     <script>
-        // Stripe deshabilitado temporalmente
-        const paymentsEnabled = false;
+        // Stripe habilitado
+        const paymentsEnabled = true;
 
         // Custom styling for Stripe elements
         const style = {
@@ -240,16 +249,150 @@
             }
         };
 
-        // Stripe Elements deshabilitado
-        // (No se inicializa Stripe ni se monta el elemento de tarjeta)
+        // Initialize Stripe
+        let stripe, elements, cardElement;
 
-        // Validación en vivo deshabilitada (Stripe apagado)
+        // Initialize Stripe when page loads
+        async function initializeStripe() {
+            try {
+                // Get publishable key from server
+                const response = await fetch('/config');
+                const { publishableKey } = await response.json();
+                
+                if (!publishableKey) {
+                    throw new Error('Stripe publishable key not configured');
+                }
+
+                stripe = Stripe(publishableKey);
+                elements = stripe.elements();
+                
+                // Create card element
+                cardElement = elements.create('card', { style });
+                cardElement.mount('#card-element');
+
+                // Handle real-time validation errors from the card Element
+                cardElement.on('change', ({error}) => {
+                    const displayError = document.getElementById('card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+
+                console.log('✅ Stripe initialized successfully');
+            } catch (error) {
+                console.error('❌ Failed to initialize Stripe:', error);
+                document.getElementById('card-errors').textContent = 'Payment system unavailable. Please try again later.';
+            }
+        }
+
+        // Handle currency change
+        document.getElementById('currency').addEventListener('change', async function(e) {
+            const newCurrency = e.target.value;
+            console.log(`💱 Switching to ${newCurrency}`);
+            
+            // Show loading state
+            document.body.style.cursor = 'wait';
+            
+            try {
+                await loadPricesForCurrency(newCurrency);
+                console.log(`✅ Prices updated for ${newCurrency}`);
+            } catch (error) {
+                console.error('❌ Failed to update currency:', error);
+                alert('Failed to update currency. Please try again.');
+                // Revert to previous selection
+                e.target.value = currentCurrency;
+            } finally {
+                document.body.style.cursor = 'default';
+            }
+        });
+
+        // Initialize when page loads
+        if (paymentsEnabled) {
+            initializeStripe();
+        }
+        
+        // Load initial prices
+        loadPricesForCurrency('MXN');
+
+        // Current currency state
+        let currentCurrency = 'MXN';
+        let currentPrices = {};
 
         // Currency formatting helper
-        function formatUSD(value) {
+        function formatCurrency(value, currency = currentCurrency) {
             const amount = typeof value === 'number' ? value : parseFloat(value);
             if (Number.isNaN(amount)) return '$0.00';
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+            
+            const currencyMap = {
+                USD: { locale: 'en-US', currency: 'USD' },
+                MXN: { locale: 'es-MX', currency: 'MXN' },
+                EUR: { locale: 'de-DE', currency: 'EUR' },
+                GBP: { locale: 'en-GB', currency: 'GBP' },
+                CAD: { locale: 'en-CA', currency: 'CAD' },
+                AUD: { locale: 'en-AU', currency: 'AUD' },
+                BRL: { locale: 'pt-BR', currency: 'BRL' },
+                ARS: { locale: 'es-AR', currency: 'ARS' }
+            };
+            
+            const config = currencyMap[currency] || currencyMap.USD;
+            return new Intl.NumberFormat(config.locale, { 
+                style: 'currency', 
+                currency: config.currency 
+            }).format(amount);
+        }
+
+        // Load prices for current currency
+        async function loadPricesForCurrency(currency) {
+            try {
+                const response = await fetch(`/prices/${currency}`);
+                const data = await response.json();
+                currentPrices = data.plans;
+                currentCurrency = currency;
+                updatePriceDisplay();
+                return data;
+            } catch (error) {
+                console.error('Failed to load prices:', error);
+                return null;
+            }
+        }
+
+        // Update all price displays
+        function updatePriceDisplay() {
+            // Update plan selector prices
+            document.querySelectorAll('.plan-option').forEach(option => {
+                const plan = option.dataset.plan;
+                if (currentPrices[plan]) {
+                    const price = currentPrices[plan].price;
+                    option.dataset.price = price;
+                    const priceSpan = option.querySelector('.price');
+                    if (priceSpan) {
+                        priceSpan.innerHTML = `${formatCurrency(price)} <small style="font-size:0.7em;opacity:0.8">${currentCurrency}</small>`;
+                    }
+                }
+            });
+
+            // Update summary prices
+            const selectedPlan = document.querySelector('.plan-option.selected');
+            if (selectedPlan) {
+                const plan = selectedPlan.dataset.plan;
+                const price = selectedPlan.dataset.price;
+                document.getElementById('summaryPrice').innerHTML = `${formatCurrency(price)} <small style="opacity:0.7">${currentCurrency}</small>`;
+                document.getElementById('totalPrice').innerHTML = `${formatCurrency(price)} <small style="opacity:0.7">${currentCurrency}</small>`;
+                
+                // Update button text
+                const buttonText = document.getElementById('button-text');
+                const buttonIcon = buttonText.querySelector('i');
+                
+                if (plan === 'trial') {
+                    buttonText.innerHTML = `<i class="fas fa-gift"></i> Start FREE Trial — ${formatCurrency(price)}`;
+                } else if (plan === 'enterprise') {
+                    buttonText.innerHTML = `<i class="fas fa-download"></i> Pre order now — ${formatCurrency(price)}`;
+                } else {
+                    buttonText.innerHTML = `<i class="fas fa-download"></i> Complete Purchase — ${formatCurrency(price)}`;
+                }
+            }
         }
 
         // Common disposable/temporary email domains
@@ -285,7 +428,7 @@
         }
 
         // Handle plan selection
-        document.querySelectorAll('.plan-option').forEach(option => {
+        document.querySelectorAll('.plan-option:not(.disabled)').forEach(option => {
             option.addEventListener('click', function() {
                 document.querySelectorAll('.plan-option').forEach(opt => opt.classList.remove('selected'));
                 this.classList.add('selected');
@@ -295,8 +438,8 @@
                 const plan = this.dataset.plan;
                 
                 // Update UI
-                document.getElementById('summaryPrice').textContent = formatUSD(price);
-                document.getElementById('totalPrice').textContent = formatUSD(price);
+                document.getElementById('summaryPrice').innerHTML = `${formatCurrency(price)} <small style="opacity:0.7">${currentCurrency}</small>`;
+                document.getElementById('totalPrice').innerHTML = `${formatCurrency(price)} <small style="opacity:0.7">${currentCurrency}</small>`;
                 
                 // Update button text and icon based on plan
                 const buttonText = document.getElementById('button-text');
@@ -304,21 +447,21 @@
                 
                 if (plan === 'trial') {
                     buttonIcon.className = 'fas fa-gift';
-                    buttonText.innerHTML = `<i class=\"fas fa-gift\"></i> Start FREE Trial — ${formatUSD(price)}`;
+                    buttonText.innerHTML = `<i class=\"fas fa-gift\"></i> Start FREE Trial — ${formatCurrency(price)}`;
                     document.getElementById('totalLabel').textContent = 'Total today';
                     document.getElementById('preorderNote').classList.add('hidden');
                     document.getElementById('modalPreorder').classList.add('hidden');
                     document.getElementById('modalSubtitle').textContent = 'Check your email for the download link and setup instructions.';
                 } else if (plan === 'enterprise') {
                     buttonIcon.className = 'fas fa-download';
-                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Pre order now — ${formatUSD(price)}`;
+                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Pre order now — ${formatCurrency(price)}`;
                     document.getElementById('totalLabel').textContent = 'Pre-order total today';
                     document.getElementById('preorderNote').classList.remove('hidden');
                     document.getElementById('modalPreorder').classList.remove('hidden');
                     document.getElementById('modalSubtitle').textContent = 'Pre‑order confirmed. Check your email for access to Stay Clean Plan.';
                 } else {
                     buttonIcon.className = 'fas fa-download';
-                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Complete Purchase — ${formatUSD(price)}`;
+                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Complete Purchase — ${formatCurrency(price)}`;
                     document.getElementById('totalLabel').textContent = 'Total today';
                     document.getElementById('preorderNote').classList.add('hidden');
                     document.getElementById('modalPreorder').classList.add('hidden');
@@ -340,20 +483,20 @@
                 },
                 basic: {
                     name: 'Get Free Plan',
-                    description: 'Basic protection with smart URL blocking',
+                    description: 'Smart URL blocking with commitment timer',
                     badge: 'ESSENTIAL',
                     icon: 'fas fa-shield'
                 },
                 premium: {
                     name: 'Stay Clean Plan',
-                    description: 'Complete protection with visual AI analysis',
-                    badge: 'MOST POPULAR',
+                    description: 'Complete protection with visual AI analysis (Available Dec 14)',
+                    badge: 'COMING SOON',
                     icon: 'fas fa-star'
                 },
                 enterprise: {
                     name: 'No Way Back Plan',
-                    description: 'Includes immediate access to Stay Clean Plan. Remaining features on December 14.',
-                    badge: 'COMPLETE SOLUTION',
+                    description: 'Complete solution with therapy sessions (Available Feb 14)',
+                    badge: 'COMING SOON',
                     icon: 'fas fa-crown'
                 }
             };
@@ -367,7 +510,7 @@
                     ${planData.badge}
                 </div>
                 <h3>${planData.name}</h3>
-                <div class="plan-price-display">${formatUSD(price)}</div>
+                <div class="plan-price-display">${formatCurrency(price)} <span style="font-size:0.6em;opacity:0.8">${currentCurrency}</span></div>
                 <p class="plan-description">${planData.description}</p>
             `;
         }
@@ -402,6 +545,8 @@
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            
+            // Validate email first
             const value = emailInput.value.trim();
             const error = getEmailError(value);
             if (error) {
@@ -409,9 +554,89 @@
                 emailInput.focus();
                 return;
             }
-            const errorElement = document.getElementById('card-errors');
-            errorElement.textContent = 'Los pagos están temporalmente deshabilitados.';
+
+            if (!paymentsEnabled || !stripe || !cardElement) {
+                document.getElementById('card-errors').textContent = 'Payment system is not available.';
+                return;
+            }
+
+            const plan = document.querySelector('input[name="plan"]:checked').value;
+            
+            // Handle free trial differently
+            if (plan === 'trial') {
+                handleFreeTrial();
+                return;
+            }
+
+            // Show loading state
+            const button = document.getElementById('submit');
+            const buttonText = document.getElementById('button-text');
+            const spinner = document.getElementById('spinner');
+            
+            button.disabled = true;
+            buttonText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            try {
+                // Create payment intent with selected currency
+                const response = await fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        plan: plan,
+                        currency: currentCurrency 
+                    }),
+                });
+
+                const { clientSecret, amount, plan: planConfig } = await response.json();
+
+                // Confirm payment with Stripe
+                const result = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                        }
+                    }
+                });
+
+                if (result.error) {
+                    // Show error to customer
+                    document.getElementById('card-errors').textContent = result.error.message;
+                } else {
+                    // Payment succeeded
+                    console.log('✅ Payment successful:', result.paymentIntent);
+                    document.getElementById('success-modal').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('❌ Payment error:', error);
+                document.getElementById('card-errors').textContent = 'Payment failed. Please try again.';
+            } finally {
+                // Reset loading state
+                button.disabled = false;
+                buttonText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
         });
+
+        function handleFreeTrial() {
+            // For free trial, just show success modal without payment
+            console.log('🎁 Free trial activated');
+            document.getElementById('success-modal').classList.remove('hidden');
+            
+            // You could also send trial signup to your backend here
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            
+            fetch('/start-trial', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, name })
+            }).catch(console.error);
+        }
 
         function submitFormWithToken(token) {
             // Show loading state
@@ -432,35 +657,7 @@
                 amount: document.querySelector('.plan-option.selected').dataset.price
             };
 
-            // Stripe deshabilitado; no se enviará el pago
-            button.disabled = false;
-            buttonText.classList.remove('hidden');
-            spinner.classList.add('hidden');
-
-            // Actual implementation would be:
-            /*
-            fetch('/process-payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('success-modal').classList.remove('hidden');
-                } else {
-                    // Handle error
-                    document.getElementById('card-errors').textContent = data.error;
-                }
-            })
-            .finally(() => {
-                button.disabled = false;
-                buttonText.classList.remove('hidden');
-                spinner.classList.add('hidden');
-            });
-            */
+            // This function is now deprecated - using the new payment flow above
         }
 
         // Close modal when clicking outside

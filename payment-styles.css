@@ -1,3 +1,40 @@
+/* Currency selector styles */
+#currency {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    color: white;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300cfff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 20px;
+    padding-right: 45px;
+}
+
+#currency:focus {
+    outline: none;
+    border-color: #00cfff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#currency option {
+    background: #1a1a1a;
+    color: white;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.currency-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 /* Payment Page Specific Styles */
 
 .payment-main {
@@ -248,6 +285,28 @@
     color: #bbb;
     font-size: 0.9rem;
     margin: 5px 0 0;
+}
+
+.plan-option.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.plan-option.disabled label {
+    cursor: not-allowed;
+}
+
+.coming-soon {
+    position: absolute;
+    top: -8px;
+    right: 15px;
+    background: #666;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .popular {
