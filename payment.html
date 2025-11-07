@@ -40,7 +40,7 @@
                             ESSENTIAL
                         </div>
                         <h3>Get Free Plan</h3>
-                        <div class="plan-price-display">$200.00</div>
+                        <div class="plan-price-display">$200.00 <span style="font-size:0.6em;opacity:0.8">MXN</span></div>
                         <p class="plan-description">Smart URL blocking and temporary protection mode</p>
                     </div>
                 </div>
@@ -86,30 +86,32 @@
                         <label for="basic">
                             <div class="plan-option-content">
                                 <h4>Get Free Plan</h4>
-                                <span class="price">$200</span>
+                                <span class="price">$200 <small style="font-size:0.7em;opacity:0.8">MXN</small></span>
                                 <p>Basic protection</p>
                             </div>
                         </label>
                     </div>
-                    <div class="plan-option disabled" data-plan="premium" data-price="2000">
-                        <input type="radio" name="plan" id="premium" value="premium" disabled>
+                    <div class="plan-option" data-plan="premium" data-price="2000">
+                        <input type="radio" name="plan" id="premium" value="premium">
                         <label for="premium">
                             <div class="plan-option-content">
                                 <h4>Stay Clean Plan</h4>
-                                <span class="price">$2,000</span>
+                                <span class="price">$2,000 <small style="font-size:0.7em;opacity:0.8">MXN</small></span>
                                 <p>Complete protection</p>
                                 <span class="coming-soon">Available Dec 14</span>
+                                <small style="color:#ff6b6b; font-size:0.8em; display:block; margin-top:5px;">⚠️ Pre-order: Get access now + future features</small>
                             </div>
                         </label>
                     </div>
-                    <div class="plan-option disabled" data-plan="enterprise" data-price="20000">
-                        <input type="radio" name="plan" id="enterprise" value="enterprise" disabled>
+                    <div class="plan-option" data-plan="enterprise" data-price="20000">
+                        <input type="radio" name="plan" id="enterprise" value="enterprise">
                         <label for="enterprise">
                             <div class="plan-option-content">
                                 <h4>No Way Back Plan</h4>
-                                <span class="price">$20,000</span>
+                                <span class="price">$20,000 <small style="font-size:0.7em;opacity:0.8">MXN</small></span>
                                 <p>Network + therapy</p>
                                 <span class="coming-soon">Available Feb 14</span>
+                                <small style="color:#ff6b6b; font-size:0.8em; display:block; margin-top:5px;">⚠️ Pre-order: Get access now + future features</small>
                             </div>
                         </label>
                     </div>
@@ -166,7 +168,7 @@
                     <div class="payment-summary" aria-live="polite">
                         <div class="summary-row">
                             <span>CUT529 Premium</span>
-                            <span id="summaryPrice">$200.00</span>
+                            <span id="summaryPrice">$200.00 <small style="opacity:0.7">MXN</small></span>
                         </div>
                         <div class="summary-row">
                             <span>Secure processing</span>
@@ -174,12 +176,12 @@
                         </div>
                         <div class="summary-row total">
                             <span id="totalLabel">Total today</span>
-                            <span id="totalPrice">$200.00</span>
+                            <span id="totalPrice">$200.00 <small style="opacity:0.7">MXN</small></span>
                         </div>
                     </div>
 
                     <button type="submit" id="submit" class="download-button">
-                        <span id="button-text"><i class="fas fa-download"></i> Complete Purchase — $200.00</span>
+                        <span id="button-text"><i class="fas fa-download"></i> Complete Purchase — $200.00 MXN</span>
                         <div id="spinner" class="hidden">
                             <i class="fas fa-spinner fa-spin"></i>
                         </div>
@@ -255,12 +257,19 @@
         // Initialize Stripe when page loads
         async function initializeStripe() {
             try {
+                console.log('🔄 Initializing Stripe...');
+                
                 // Get publishable key from server
                 const response = await fetch('/config');
-                const { publishableKey } = await response.json();
+                if (!response.ok) {
+                    throw new Error(`Config endpoint failed: ${response.status}`);
+                }
                 
-                if (!publishableKey) {
-                    throw new Error('Stripe publishable key not configured');
+                const { publishableKey } = await response.json();
+                console.log('🔑 Received publishable key:', publishableKey ? 'Yes' : 'No');
+                
+                if (!publishableKey || publishableKey.includes('your_') || publishableKey === '') {
+                    throw new Error('Stripe publishable key not configured properly');
                 }
 
                 stripe = Stripe(publishableKey);
@@ -283,7 +292,7 @@
                 console.log('✅ Stripe initialized successfully');
             } catch (error) {
                 console.error('❌ Failed to initialize Stripe:', error);
-                document.getElementById('card-errors').textContent = 'Payment system unavailable. Please try again later.';
+                document.getElementById('card-errors').textContent = 'Payment system error: ' + error.message;
             }
         }
 
@@ -313,8 +322,11 @@
             initializeStripe();
         }
         
-        // Load initial prices
-        loadPricesForCurrency('MXN');
+        // Load initial prices and update display
+        loadPricesForCurrency('MXN').then(() => {
+            // Force update the selected plan display with correct currency
+            updateSelectedPlanDisplay('basic', 200);
+        });
 
         // Current currency state
         let currentCurrency = 'MXN';
@@ -428,7 +440,7 @@
         }
 
         // Handle plan selection
-        document.querySelectorAll('.plan-option:not(.disabled)').forEach(option => {
+        document.querySelectorAll('.plan-option').forEach(option => {
             option.addEventListener('click', function() {
                 document.querySelectorAll('.plan-option').forEach(opt => opt.classList.remove('selected'));
                 this.classList.add('selected');
@@ -452,6 +464,13 @@
                     document.getElementById('preorderNote').classList.add('hidden');
                     document.getElementById('modalPreorder').classList.add('hidden');
                     document.getElementById('modalSubtitle').textContent = 'Check your email for the download link and setup instructions.';
+                } else if (plan === 'premium') {
+                    buttonIcon.className = 'fas fa-download';
+                    buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Pre-order now — ${formatCurrency(price)}`;
+                    document.getElementById('totalLabel').textContent = 'Pre-order total today';
+                    document.getElementById('preorderNote').classList.remove('hidden');
+                    document.getElementById('modalPreorder').classList.remove('hidden');
+                    document.getElementById('modalSubtitle').textContent = 'Pre‑order confirmed. Check your email for immediate access to Get Free Plan.';
                 } else if (plan === 'enterprise') {
                     buttonIcon.className = 'fas fa-download';
                     buttonText.innerHTML = `<i class=\"fas fa-download\"></i> Pre order now — ${formatCurrency(price)}`;
@@ -490,13 +509,13 @@
                 premium: {
                     name: 'Stay Clean Plan',
                     description: 'Complete protection with visual AI analysis (Available Dec 14)',
-                    badge: 'COMING SOON',
+                    badge: 'PRE-ORDER',
                     icon: 'fas fa-star'
                 },
                 enterprise: {
                     name: 'No Way Back Plan',
                     description: 'Complete solution with therapy sessions (Available Feb 14)',
-                    badge: 'COMING SOON',
+                    badge: 'PRE-ORDER',
                     icon: 'fas fa-crown'
                 }
             };

@@ -46,7 +46,7 @@ const plans = {
         downloadUrl: 'https://cut529.com/downloads/cut529-premium.zip',
         features: ['Everything from Get Free', 'Visual AI analysis', 'Advanced irrevocable mode'],
         availableDate: '2024-12-14',
-        disabled: true
+        preorder: true // Habilitado para preventa
     },
     enterprise: {
         name: 'No Way Back Plan',
@@ -55,7 +55,7 @@ const plans = {
         downloadUrl: 'https://cut529.com/downloads/cut529-enterprise.zip',
         features: ['Everything from Stay Clean', 'Network monitoring', 'Therapy session'],
         availableDate: '2025-02-14',
-        disabled: true
+        preorder: true // Habilitado para preventa
     }
 };
 
@@ -168,12 +168,7 @@ app.post('/create-payment-intent', async (req, res) => {
             return res.status(400).json({ error: 'Invalid plan selected' });
         }
 
-        // Check if plan is disabled
-        if (plans[plan].disabled) {
-            return res.status(400).json({ 
-                error: `${plans[plan].name} is not available yet. Available on ${plans[plan].availableDate}` 
-            });
-        }
+        // Note: Plans with preorder flag are now enabled for pre-order payments
 
         if (!exchangeRates[currency]) {
             return res.status(400).json({ error: 'Unsupported currency' });
@@ -338,6 +333,8 @@ app.post('/start-trial', async (req, res) => {
 
 // Send download email
 async function sendDownloadEmail(email, name, plan) {
+    const isPreorder = plan.preorder === true;
+    
     const emailTemplate = `
     <!DOCTYPE html>
     <html>
@@ -345,39 +342,60 @@ async function sendDownloadEmail(email, name, plan) {
         <style>
             body { font-family: Inter, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #00cfff 0%, #0099bb 100%); 
+            .header { background: linear-gradient(135deg, ${isPreorder ? '#ffa500 0%, #ff6600' : '#00cfff 0%, #0099bb'} 100%); 
                       color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-            .download-button { display: inline-block; background: #00cfff; color: white; 
+            .download-button { display: inline-block; background: ${isPreorder ? '#ffa500' : '#00cfff'}; color: white; 
                               padding: 15px 30px; text-decoration: none; border-radius: 5px; 
                               font-weight: bold; margin: 20px 0; }
             .features { background: white; padding: 20px; margin: 20px 0; border-radius: 5px; }
             .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
+            .preorder-notice { background: #fff3cd; border: 2px solid #ffa500; border-radius: 8px; 
+                              padding: 20px; margin: 20px 0; text-align: center; }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="header">
-                <h1>🎉 Welcome to CUT529!</h1>
-                <p>Your journey to digital freedom starts now</p>
+                <h1>${isPreorder ? '🚀 Pre-order Confirmed!' : '🎉 Welcome to CUT529!'}</h1>
+                <p>${isPreorder ? 'Your investment in change starts today' : 'Your journey to digital freedom starts now'}</p>
             </div>
             
             <div class="content">
                 <h2>Hi ${name},</h2>
                 
+                ${isPreorder ? `
+                <div class="preorder-notice">
+                    <h3>🎯 Pre-order Success!</h3>
+                    <p><strong>You get immediate access to Get Free Plan</strong> while we prepare your ${plan.name} features.</p>
+                    <p><strong>Full ${plan.name} features will be delivered on ${plan.availableDate}</strong></p>
+                </div>
+                
+                <p>Thank you for pre-ordering <strong>${plan.name}</strong>! You're helping us build the future of digital wellness.</p>
+                ` : `
                 <p>Thank you for choosing <strong>${plan.name}</strong>! Your AI-powered protection is ready to download.</p>
+                `}
                 
                 <div style="text-align: center;">
-                    <a href="${plan.downloadUrl}" class="download-button">
-                        📥 Download CUT529 Now
+                    <a href="${isPreorder ? 'https://cut529.com/downloads/cut529-basic.zip' : plan.downloadUrl}" class="download-button">
+                        📥 ${isPreorder ? 'Download Get Free Plan (Immediate Access)' : 'Download CUT529 Now'}
                     </a>
                 </div>
                 
                 <div class="features">
-                    <h3>What you get with ${plan.name}:</h3>
+                    <h3>${isPreorder ? 'What you get immediately:' : `What you get with ${plan.name}:`}</h3>
+                    <ul>
+                        ${isPreorder ? 
+                            ['Smart URL blocking (DNS)', 'Temporary irrevocable mode', 'Commitment timer', 'Email support'].map(feature => `<li>${feature}</li>`).join('') :
+                            plan.features.map(feature => `<li>${feature}</li>`).join('')
+                        }
+                    </ul>
+                    ${isPreorder ? `
+                    <h3>What you'll get on ${plan.availableDate}:</h3>
                     <ul>
                         ${plan.features.map(feature => `<li>${feature}</li>`).join('')}
                     </ul>
+                    ` : ''}
                 </div>
                 
                 <h3>🚀 Quick Setup Guide:</h3>
@@ -421,10 +439,14 @@ async function sendDownloadEmail(email, name, plan) {
     </html>
     `;
 
+    const emailSubject = isPreorder 
+        ? `🚀 Pre-order confirmed: ${plan.name} + Immediate Access!`
+        : `🎉 Your CUT529 ${plan.name} is ready for download!`;
+
     const mailOptions = {
         from: '"CUT529 Team" <noreply@cut529.com>',
         to: email,
-        subject: `🎉 Your CUT529 ${plan.name} is ready for download!`,
+        subject: emailSubject,
         html: emailTemplate
     };
 

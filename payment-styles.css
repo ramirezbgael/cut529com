@@ -263,9 +263,11 @@
 }
 
 .plan-option-content {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    gap: 5px 20px;
     align-items: center;
-    justify-content: space-between;
 }
 
 .plan-option-content h4 {
@@ -273,18 +275,32 @@
     font-weight: 600;
     color: #fff;
     margin: 0;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .plan-option-content .price {
     font-size: 1.5rem;
     font-weight: 700;
     color: #00cfff;
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .plan-option-content p {
     color: #bbb;
     font-size: 0.9rem;
-    margin: 5px 0 0;
+    margin: 0;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.plan-option-content small {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 5px;
 }
 
 .plan-option.disabled {
@@ -297,16 +313,38 @@
     cursor: not-allowed;
 }
 
+/* Pre-order plan styling */
+.plan-option[data-plan="premium"],
+.plan-option[data-plan="enterprise"] {
+    border: 2px solid rgba(255, 165, 0, 0.3);
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.05), rgba(0, 207, 255, 0.05));
+}
+
+.plan-option[data-plan="premium"]:hover,
+.plan-option[data-plan="enterprise"]:hover {
+    border-color: rgba(255, 165, 0, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 165, 0, 0.2);
+}
+
+.plan-option[data-plan="premium"].selected,
+.plan-option[data-plan="enterprise"].selected {
+    border-color: #ffa500;
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(0, 207, 255, 0.1));
+}
+
 .coming-soon {
     position: absolute;
     top: -8px;
     right: 15px;
-    background: #666;
+    background: linear-gradient(135deg, #ffa500, #ff6600);
     color: #fff;
     padding: 4px 12px;
     border-radius: 12px;
     font-size: 0.8rem;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
+    z-index: 10;
 }
 
 .popular {
