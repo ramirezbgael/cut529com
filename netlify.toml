@@ -2,6 +2,9 @@
   functions = "netlify/functions"
   publish = "."
 
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = "README.md,SETUP.md,package.json,privacy.html,terms.html,server.js"
+
 [functions]
   external_node_modules = ["stripe"]
 
