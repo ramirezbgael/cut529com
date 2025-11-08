@@ -358,7 +358,7 @@
         // Load prices for current currency
         async function loadPricesForCurrency(currency) {
             try {
-                const response = await fetch(`/.netlify/functions/prices/${currency}`);
+                const response = await fetch(`/.netlify/functions/prices?currency=${currency}`);
                 const data = await response.json();
                 currentPrices = data.plans;
                 currentCurrency = currency;

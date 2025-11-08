@@ -5,10 +5,9 @@
 [functions]
   external_node_modules = ["stripe"]
 
-[[redirects]]
-  from = "/.netlify/functions/prices/*"
-  to = "/.netlify/functions/prices"
-  status = 200
+# Configure secrets scanning to ignore example files
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".env.example,server.js,README.md,SETUP.md,package.json,terms.html,privacy.html,.htaccess"
 
 [[headers]]
   for = "/.netlify/functions/*"

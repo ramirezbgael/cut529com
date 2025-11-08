@@ -63,8 +63,15 @@ exports.handler = async (event, context) => {
     }
 
     if (event.httpMethod === 'GET') {
-        // Extract currency from path like /prices/MXN
-        const currency = event.path.split('/').pop() || 'USD';
+        // Extract currency from query string or path
+        const pathParts = event.path.split('/');
+        const queryParams = new URLSearchParams(event.queryStringParameters || '');
+        
+        // Try to get currency from path like /.netlify/functions/prices/MXN
+        // or from query like /.netlify/functions/prices?currency=MXN
+        const currency = pathParts[pathParts.length - 1] !== 'prices' 
+            ? pathParts[pathParts.length - 1] 
+            : queryParams.get('currency') || 'USD';
         
         if (!exchangeRates[currency]) {
             return {
