@@ -259,8 +259,8 @@
             try {
                 console.log('🔄 Initializing Stripe...');
                 
-                // Get publishable key from server
-                const response = await fetch('/config');
+                // Get publishable key from Netlify function
+                const response = await fetch('/.netlify/functions/config');
                 if (!response.ok) {
                     throw new Error(`Config endpoint failed: ${response.status}`);
                 }
@@ -358,7 +358,7 @@
         // Load prices for current currency
         async function loadPricesForCurrency(currency) {
             try {
-                const response = await fetch(`/prices/${currency}`);
+                const response = await fetch(`/.netlify/functions/prices/${currency}`);
                 const data = await response.json();
                 currentPrices = data.plans;
                 currentCurrency = currency;
@@ -598,7 +598,7 @@
 
             try {
                 // Create payment intent with selected currency
-                const response = await fetch('/create-payment-intent', {
+                const response = await fetch('/.netlify/functions/create-payment-intent', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -650,7 +650,7 @@
             const email = document.getElementById('email').value;
             const name = document.getElementById('name').value;
             
-            fetch('/start-trial', {
+            fetch('/.netlify/functions/start-trial', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, name })
